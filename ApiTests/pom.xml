@@ -33,21 +33,7 @@
             <version>${unirest.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-    </dependencies>
-
     <properties>
         <unirest.version>3.3.00</unirest.version>
-        <jackson.version>2.10.1</jackson.version>
     </properties>
 </project>
