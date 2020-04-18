@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.BASE_URI;
+import static ru.iukhimenko.transportsystem.autotesting.api.Configs.BASE_URI;
 
 public class Http {
     static Logger logger = LoggerFactory.getLogger(Http.class);
