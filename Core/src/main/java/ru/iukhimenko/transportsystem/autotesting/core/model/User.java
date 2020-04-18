@@ -40,8 +40,26 @@ public class User {
         return password;
     }
 
-    @JsonProperty("password")
+    @JsonIgnore
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this)
+            return true;
+        if (object == null || object.getClass() != this.getClass())
+            return false;
+        User user = (User)object;
+        return (username != null && username.equals(user.username));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
     }
 }
