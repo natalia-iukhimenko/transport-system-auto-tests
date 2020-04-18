@@ -4,13 +4,18 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.error.ElementsShouldBeExactly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.AUTH_ENDPOINT;
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.REGISTER_ENDPOINT;
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
+import static ru.iukhimenko.transportsystem.autotesting.api.Configs.*;
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AuthService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
@@ -31,12 +36,23 @@ public class AuthService {
         if (user != null) {
             HttpResponse<JsonNode> response = Http.sendPostRequest(AUTH_ENDPOINT, user);
             if (response.isSuccess()) {
-                authenticatedUser = ObjectConverter.convertToObject(response.getBody().toString(), User.class);
+                authenticatedUser = ObjectConverter.convertToObject(response.getBody().getObject(), User.class);
                 logger.info("User " + user.getUsername() + " has been authenticated");
             }
         } else
             logger.warn("Authentication of null user cannot be performed");
         return authenticatedUser;
+    }
+
+    public List<User> getUsers() {
+        List<User> users = null;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", getAccessToken(new User(ADMIN_USERNAME, ADMIN_PASSWORD)));
+        HttpResponse<JsonNode> response = Http.sendGetRequest(USERS_ENDPOINT, headers);
+        if (response.isSuccess()) {
+            users = ObjectConverter.convertToObjects(response.getBody().getArray(), User.class);
+        }
+        return users;
     }
 
     public String getAccessToken(User user) {
