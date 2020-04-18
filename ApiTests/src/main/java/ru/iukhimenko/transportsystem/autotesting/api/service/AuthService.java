@@ -8,8 +8,8 @@ import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.REGISTE
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
-public class UserService {
-    private Logger logger = LoggerFactory.getLogger(UserService.class);
+public class AuthService {
+    private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     public void registerUser(User user) {
         if (user != null) {
