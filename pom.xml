@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>Core</module>
-        <module>ApiTests</module>
+        <module>transportsystem.autotesting.core</module>
+        <module>transportsystem.autotesting.api</module>
     </modules>
 
     <dependencies>
@@ -43,6 +43,18 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.0</version>
         </dependency>
     </dependencies>
 
