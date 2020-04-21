@@ -19,7 +19,7 @@ public class Http {
                 .queryString(requestParams)
                 .asJson()
                 .ifFailure(response -> {
-                    logger.error("Error Code: " + response.getStatus());
+                    logger.error("Error " + response.getStatus());
                     response.getParsingError().ifPresent(e -> {
                         logger.error("Parsing Exception: ", e);
                         logger.error("Original body: " + e.getOriginalBody());
@@ -32,7 +32,7 @@ public class Http {
                 .get(BASE_URI + url)
                 .asJson()
                 .ifFailure(response -> {
-                    logger.error("Error Code: " + response.getStatus());
+                    logger.error("Error " + response.getStatus());
                     response.getParsingError().ifPresent(e -> {
                         logger.error("Parsing Exception: ", e);
                         logger.error("Original body: " + e.getOriginalBody());
@@ -47,7 +47,7 @@ public class Http {
                 .body(body)
                 .asJson()
                 .ifFailure(response -> {
-                    logger.error("Error Code: " + response.getStatus());
+                    logger.error("Error " + response.getStatus());
                     response.getParsingError().ifPresent(e -> {
                         logger.error("Parsing Exception: ", e);
                         logger.error("Original body: " + e.getOriginalBody());
@@ -61,7 +61,7 @@ public class Http {
                 .body(body)
                 .asJson()
                 .ifFailure(response -> {
-                    logger.error("Error Code: " + response.getStatus());
+                    logger.error("Error " + response.getStatus());
                     response.getParsingError().ifPresent(e -> {
                         logger.error("Parsing Exception: ", e);
                         logger.error("Original body: " + e.getOriginalBody());
