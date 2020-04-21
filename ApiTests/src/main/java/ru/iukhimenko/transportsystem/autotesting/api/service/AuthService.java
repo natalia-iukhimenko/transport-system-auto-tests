@@ -4,7 +4,6 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.error.ElementsShouldBeExactly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +26,6 @@ public class AuthService {
                 logger.info("User " + user.getUsername() + " has been registered");
             }
         }
-        else
-            logger.warn("Registration of null user cannot be performed");
     }
 
     public User authenticateUser(User user) {
