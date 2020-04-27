@@ -1,5 +1,7 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
@@ -12,6 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 public class RegistrationTest extends ApiTest {
     @Test
     @DisplayName("A user with unique username can register")
+    @Severity(SeverityLevel.BLOCKER)
     public void canRegisterWithUniqueUsernameTest() {
         String testUsername = TestDataManager.getValidUsername();
         User user = new User(testUsername, TestDataManager.getValidPassword());
@@ -22,6 +25,7 @@ public class RegistrationTest extends ApiTest {
 
     @Test
     @DisplayName("A user with non-unique username cannot register")
+    @Severity(SeverityLevel.CRITICAL)
     public void canNotRegisterWithNonUniqueUsernameTest() {
         String uniqueUsername = TestDataManager.getValidUsername();
         User firstUser = new User(uniqueUsername, TestDataManager.getValidPassword());
@@ -35,6 +39,7 @@ public class RegistrationTest extends ApiTest {
 
     @Test
     @DisplayName("A user cannot register without username")
+    @Severity(SeverityLevel.NORMAL)
     public void canNotRegisterWithoutUsernameTest() {
         User user = new User("", TestDataManager.getValidPassword());
         AuthService authService = new AuthService();
@@ -45,6 +50,7 @@ public class RegistrationTest extends ApiTest {
 
     @Test
     @DisplayName("A user cannot register without password")
+    @Severity(SeverityLevel.NORMAL)
     public void canNotRegisterWithoutPasswordTest() {
         User user = new User(TestDataManager.getValidUsername(), "");
         AuthService authService = new AuthService();

@@ -1,5 +1,7 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AuthenticationTest extends ApiTest {
     @Test
     @DisplayName("User can log in with correct credentials")
+    @Severity(SeverityLevel.BLOCKER)
     public void canLoginWithCorrectCredentialsTest() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
         AuthService authService = new AuthService();
@@ -25,6 +28,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can log in with username in another case")
+    @Severity(SeverityLevel.CRITICAL)
     public void canLogInWithUsernameInAnotherCaseTest() {
         String sourceUsername = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
         AuthService authService = new AuthService();
@@ -38,6 +42,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can not log in with wrong password")
+    @Severity(SeverityLevel.CRITICAL)
     public void canNotLogInWithWrongPasswordTest() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
         AuthService authService = new AuthService();
@@ -51,6 +56,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can not log in without password")
+    @Severity(SeverityLevel.NORMAL)
     public void canNotLogInWithoutPasswordTest() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
         AuthService authService = new AuthService();
@@ -63,6 +69,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can log in with username having leading spaces")
+    @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingLeadingSpaces() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
         AuthService authService = new AuthService();
@@ -75,6 +82,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can log in with username having trailing spaces")
+    @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingTrailingSpaces() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
         AuthService authService = new AuthService();
