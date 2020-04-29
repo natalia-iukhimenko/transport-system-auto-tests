@@ -8,7 +8,9 @@ public class TestDataManager {
         return new Faker().number().digits(minimalLength);
     }
 
+    // A valid username can contain only latin letters, underscores and points
     public static String getValidUsername() {
-        return new Faker().name().username();
+        String validUsername = "_" + new Faker().name().username();
+        return validUsername;
     }
 }
