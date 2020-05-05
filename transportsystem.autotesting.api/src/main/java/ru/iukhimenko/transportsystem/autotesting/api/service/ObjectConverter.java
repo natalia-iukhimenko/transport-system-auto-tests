@@ -5,12 +5,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ObjectConverter {
+    private static Logger logger = LoggerFactory.getLogger(ObjectConverter.class);
+
     public static <T> T convertToObject(JSONObject jsonObject, Class<T> classType) {
         ObjectMapper mapper = new ObjectMapper();
         T mappedObject = null;
@@ -18,11 +22,11 @@ public class ObjectConverter {
             mappedObject = mapper.readValue(jsonObject.toString(), classType);
         }
         catch (JsonParseException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return mappedObject;
     }
