@@ -43,6 +43,21 @@ public class EngineService implements ILogMessageHelper {
         return engineId;
     }
 
+    public void updateEngine(Engine newEngine) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", new AuthService().getAccessToken(actor));
+        if (newEngine.getId() != null) {
+            HttpResponse<JsonNode> response = Http.sendPutRequest(ENGINES_EDIT_ENDPOINT, headers, newEngine);
+            if (response.isSuccess()) {
+                logger.info(getRequestExecutionResultMessage(ENGINES_EDIT_ENDPOINT, response.getStatus()));
+                logger.info("Engine has been updated, id = " + newEngine.getId());
+            } else
+                logger.info(response.getBody().getObject().toString());
+        }
+        else
+            logger.warn("Unable to update engine with id = null");
+    }
+
     public Engine getEngine(Integer id) {
         Engine engine = null;
         Map<String, String> headers = new HashMap();
