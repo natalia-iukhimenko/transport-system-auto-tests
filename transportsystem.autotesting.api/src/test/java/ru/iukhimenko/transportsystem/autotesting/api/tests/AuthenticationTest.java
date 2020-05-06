@@ -1,5 +1,6 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
+import io.qameta.allure.Epic;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.apache.commons.lang3.StringUtils;
@@ -9,12 +10,12 @@ import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.AuthService;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AuthenticationTest extends ApiTest {
     @Test
     @DisplayName("User can log in with correct credentials")
+    @Epic("Authentication")
     @Severity(SeverityLevel.BLOCKER)
     public void canLoginWithCorrectCredentialsTest() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
@@ -28,6 +29,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can log in with username in another case")
+    @Epic("Authentication")
     @Severity(SeverityLevel.CRITICAL)
     public void canLogInWithUsernameInAnotherCaseTest() {
         String sourceUsername = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
@@ -42,6 +44,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can not log in with wrong password")
+    @Epic("Authentication")
     @Severity(SeverityLevel.CRITICAL)
     public void canNotLogInWithWrongPasswordTest() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
@@ -56,6 +59,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can not log in without password")
+    @Epic("Authentication")
     @Severity(SeverityLevel.NORMAL)
     public void canNotLogInWithoutPasswordTest() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
@@ -69,6 +73,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can log in with username having leading spaces")
+    @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingLeadingSpaces() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
@@ -82,6 +87,7 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @DisplayName("User can log in with username having trailing spaces")
+    @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingTrailingSpaces() {
         String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
