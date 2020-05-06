@@ -12,9 +12,9 @@ import static ru.iukhimenko.transportsystem.autotesting.api.Configs.BASE_URI;
 public class Http {
     static Logger logger = LoggerFactory.getLogger(Http.class);
 
-    public static HttpResponse<JsonNode> sendGetRequest(String url, Map<String, String> headers, Map<String, Object> requestParams) {
+    public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers, Map<String, Object> requestParams) {
         return Unirest
-                .get(BASE_URI + url)
+                .get(BASE_URI + endpoint)
                 .headers(headers)
                 .queryString(requestParams)
                 .asJson()
@@ -27,9 +27,9 @@ public class Http {
                 });
     }
 
-    public static HttpResponse<JsonNode> sendGetRequest(String url, Map<String, String> headers) {
+    public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers) {
         return Unirest
-                .get(BASE_URI + url)
+                .get(BASE_URI + endpoint)
                 .asJson()
                 .ifFailure(response -> {
                     logger.error("Error " + response.getStatus());
@@ -40,9 +40,9 @@ public class Http {
                 });
     }
 
-    public static HttpResponse<JsonNode> sendPostRequest(String url, Map<String, String> headers, Object body) {
+    public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Map<String, String> headers, Object body) {
         return Unirest
-                .post(BASE_URI + url)
+                .post(BASE_URI + endpoint)
                 .headers(headers)
                 .body(body)
                 .asJson()
@@ -55,9 +55,24 @@ public class Http {
                 });
     }
 
-    public static HttpResponse<JsonNode> sendPostRequest(String url, Object body) {
+    public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Object body) {
         return Unirest
-                .post(BASE_URI + url)
+                .post(BASE_URI + endpoint)
+                .body(body)
+                .asJson()
+                .ifFailure(response -> {
+                    logger.error("Error " + response.getStatus());
+                    response.getParsingError().ifPresent(e -> {
+                        logger.error("Parsing Exception: ", e);
+                        logger.error("Original body: " + e.getOriginalBody());
+                    });
+                });
+    }
+
+    public static HttpResponse<JsonNode> sendPutRequest(String endpoint, Map<String, String> headers, Object body) {
+        return Unirest
+                .put(BASE_URI + endpoint)
+                .headers(headers)
                 .body(body)
                 .asJson()
                 .ifFailure(response -> {
