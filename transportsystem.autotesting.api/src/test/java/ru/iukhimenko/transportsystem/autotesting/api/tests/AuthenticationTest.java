@@ -24,7 +24,11 @@ public class AuthenticationTest extends ApiTest {
         authService.registerUser(registeredUser);
 
         User authenticatedUser = authService.authenticateUser(registeredUser);
-        assertThat(authenticatedUser).as("User is successfully authenticated with correct credentials").isEqualTo(registeredUser);
+        assertThat(authenticatedUser)
+                .as("User is successfully authenticated with correct credentials")
+                .isNotNull()
+                .extracting("username")
+                .isEqualTo(registeredUser.getUsername());
     }
 
     @Test
@@ -39,7 +43,11 @@ public class AuthenticationTest extends ApiTest {
 
         String usernameInAnotherCase = changeFirstLetterCase(registeredUser.getUsername());
         User authenticatedUser = authService.authenticateUser(new User(usernameInAnotherCase, registeredUser.getPassword()));
-        assertThat(authenticatedUser).as("Username is not case-sensitive").isEqualTo(registeredUser);
+        assertThat(authenticatedUser)
+                .as("Username is not case-sensitive")
+                .isNotNull()
+                .extracting("username")
+                .isEqualTo(registeredUser.getUsername());
     }
 
     @Test
@@ -54,7 +62,9 @@ public class AuthenticationTest extends ApiTest {
 
         String wrongPassword = TestDataManager.getValidPassword();
         User authenticatedUser = authService.authenticateUser(new User(registeredUser.getUsername(), wrongPassword));
-        assertThat(authenticatedUser).as("User is not authenticated with wrong password").isNull();
+        assertThat(authenticatedUser)
+                .as("User is not authenticated with wrong password")
+                .isNull();
     }
 
     @Test
@@ -68,7 +78,9 @@ public class AuthenticationTest extends ApiTest {
         authService.registerUser(registeredUser);
 
         User authenticatedUser = authService.authenticateUser(new User(registeredUser.getUsername(), ""));
-        assertThat(authenticatedUser).as("User is not authenticated without password").isNull();
+        assertThat(authenticatedUser)
+                .as("User is not authenticated without password")
+                .isNull();
     }
 
     @Test
@@ -82,7 +94,11 @@ public class AuthenticationTest extends ApiTest {
         authService.registerUser(registeredUser);
 
         User authenticatedUser = authService.authenticateUser(new User("   " + registeredUser.getUsername(), registeredUser.getPassword()));
-        assertThat(authenticatedUser).as("Leading spaces in username are ignored on authentication").isEqualTo(registeredUser);
+        assertThat(authenticatedUser)
+                .as("Leading spaces in username are ignored on authentication")
+                .isNotNull()
+                .extracting("username")
+                .isEqualTo(registeredUser.getUsername());
     }
 
     @Test
@@ -96,7 +112,11 @@ public class AuthenticationTest extends ApiTest {
         authService.registerUser(registeredUser);
 
         User authenticatedUser = authService.authenticateUser(new User(registeredUser.getUsername() + "   ", registeredUser.getPassword()));
-        assertThat(authenticatedUser).as("Trailing spaces in username are ignored on authentication").isEqualTo(registeredUser);
+        assertThat(authenticatedUser)
+                .as("Trailing spaces in username are ignored on authentication")
+                .isNotNull()
+                .extracting("username")
+                .isEqualTo(registeredUser.getUsername());
     }
 
     private String changeFirstLetterCase(String sourceString) {
