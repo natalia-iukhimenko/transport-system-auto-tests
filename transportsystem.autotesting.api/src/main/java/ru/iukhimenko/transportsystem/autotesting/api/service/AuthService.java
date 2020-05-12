@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.*;
+import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.getHttpMessageText;
 
-import ru.iukhimenko.transportsystem.autotesting.api.ILogMessageHelper;
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
@@ -18,16 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AuthService implements ILogMessageHelper {
+public class AuthService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     public void registerUser(User user) {
         if (user != null) {
             HttpResponse<JsonNode> response = Http.sendPostRequest(REGISTER_ENDPOINT, user);
-            if (response.isSuccess())
-                logger.info(getRequestExecutionResultMessage(REGISTER_ENDPOINT, response.getStatus()));
-            else
-                logger.info(response.getBody().getObject().toString());
         } else
             logger.info("Registration of null user cannot be performed");
     }
@@ -40,10 +36,7 @@ public class AuthService implements ILogMessageHelper {
                 authenticatedUser = ObjectConverter.convertToObject(response.getBody().getObject(), User.class);
                 if (authenticatedUser == null)
                     logger.warn("Failed to map user after authentication");
-                logger.info(getRequestExecutionResultMessage(AUTH_ENDPOINT, response.getStatus()));
             }
-            else
-                logger.info(response.getBody().getObject().toString());
         } else
             logger.info("Authentication of null user cannot be performed");
         return authenticatedUser;
@@ -58,10 +51,7 @@ public class AuthService implements ILogMessageHelper {
             users = ObjectConverter.convertToObjects(response.getBody().getArray(), User.class);
             if (users == null)
                 logger.warn("Failed to map users");
-            logger.info(getRequestExecutionResultMessage(USERS_ENDPOINT, response.getStatus()));
         }
-        else
-            logger.info(response.getBody().getObject().toString());
         return users;
     }
 
@@ -74,10 +64,7 @@ public class AuthService implements ILogMessageHelper {
             if (StringUtils.isNotEmpty(type) && StringUtils.isNotEmpty(token)) {
                 accessToken = type + " " + token;
             }
-            logger.info(getRequestExecutionResultMessage(AUTH_ENDPOINT, response.getStatus()));
         }
-        else
-            logger.info(response.getBody().getObject().toString());
         return accessToken;
     }
 }

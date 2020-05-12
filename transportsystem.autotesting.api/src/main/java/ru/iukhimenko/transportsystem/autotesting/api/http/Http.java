@@ -5,9 +5,10 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Map;
+
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.BASE_URI;
+import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.*;
 
 public class Http {
     static Logger logger = LoggerFactory.getLogger(Http.class);
@@ -18,13 +19,8 @@ public class Http {
                 .headers(headers)
                 .queryString(requestParams)
                 .asJson()
-                .ifFailure(response -> {
-                    logger.error("Error " + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        logger.error("Parsing Exception: ", e);
-                        logger.error("Original body: " + e.getOriginalBody());
-                    });
-                });
+                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
+                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
     }
 
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers) {
@@ -32,13 +28,8 @@ public class Http {
                 .get(BASE_URI + endpoint)
                 .headers(headers)
                 .asJson()
-                .ifFailure(response -> {
-                    logger.error("Error " + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        logger.error("Parsing Exception: ", e);
-                        logger.error("Original body: " + e.getOriginalBody());
-                    });
-                });
+                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
+                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
     }
 
     public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Map<String, String> headers, Object body) {
@@ -47,13 +38,8 @@ public class Http {
                 .headers(headers)
                 .body(body)
                 .asJson()
-                .ifFailure(response -> {
-                    logger.error("Error " + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        logger.error("Parsing Exception: ", e);
-                        logger.error("Original body: " + e.getOriginalBody());
-                    });
-                });
+                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
+                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
     }
 
     public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Object body) {
@@ -61,13 +47,8 @@ public class Http {
                 .post(BASE_URI + endpoint)
                 .body(body)
                 .asJson()
-                .ifFailure(response -> {
-                    logger.error("Error " + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        logger.error("Parsing Exception: ", e);
-                        logger.error("Original body: " + e.getOriginalBody());
-                    });
-                });
+                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
+                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
     }
 
     public static HttpResponse<JsonNode> sendPutRequest(String endpoint, Map<String, String> headers, Object body) {
@@ -76,13 +57,8 @@ public class Http {
                 .headers(headers)
                 .body(body)
                 .asJson()
-                .ifFailure(response -> {
-                    logger.error("Error " + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        logger.error("Parsing Exception: ", e);
-                        logger.error("Original body: " + e.getOriginalBody());
-                    });
-                });
+                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
+                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
     }
 
     public static HttpResponse<JsonNode> sendDeleteRequest(String endpoint, Map<String, String> headers) {
@@ -90,12 +66,7 @@ public class Http {
                 .delete(BASE_URI + endpoint)
                 .headers(headers)
                 .asJson()
-                .ifFailure(response -> {
-                    logger.error("Error " + response.getStatus());
-                    response.getParsingError().ifPresent(e -> {
-                        logger.error("Parsing Exception: ", e);
-                        logger.error("Original body: " + e.getOriginalBody());
-                    });
-                });
+                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
+                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
     }
 }
