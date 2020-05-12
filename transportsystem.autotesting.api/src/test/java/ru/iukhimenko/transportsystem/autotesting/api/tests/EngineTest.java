@@ -13,6 +13,8 @@ import ru.iukhimenko.transportsystem.autotesting.api.service.EngineService;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_PASSWORD;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_USERNAME;
@@ -77,5 +79,19 @@ public class EngineTest extends ApiTest {
         engineService.updateEngine(expectedUpdatedEngine);
         Engine actualUpdatedEngine = engineService.getEngine(engineId);
         assertThat(actualUpdatedEngine).as("All engine values have been updated").isEqualToComparingFieldByField(expectedUpdatedEngine);
+    }
+
+    @Test
+    @DisplayName("An unused engine can be deleted")
+    @Epic("Engines")
+    @Feature("Delete Engine")
+    @Severity(SeverityLevel.BLOCKER)
+    public void canDeleteUnusedEngineTest() {
+        EngineService engineService = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+        Integer engineId = engineService.addEngine(new Engine("To be removed", 1000, ELECTRIC));
+        List<Engine> systemEngines = engineService.getAllEngines();
+        assertThat(systemEngines).extracting("id").as("Created engine id exists in the list of engines").contains(engineId);
+        engineService.deleteEngine(engineId);
+        assertThat(engineService.getAllEngines()).extracting("id").as("Deleted engine doesn't exist in the list of engines").doesNotContain(engineId);
     }
 }
