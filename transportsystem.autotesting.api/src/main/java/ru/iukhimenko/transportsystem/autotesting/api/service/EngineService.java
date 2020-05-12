@@ -10,7 +10,9 @@ import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
@@ -64,13 +66,40 @@ public class EngineService implements ILogMessageHelper {
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(ENGINES_ENGINE_ENDPOINT(id), headers);
         if (response.isSuccess()) {
+            logger.info(getRequestExecutionResultMessage(ENGINES_ENGINE_ENDPOINT(id), response.getStatus()));
             engine = ObjectConverter.convertToObject(response.getBody().getObject(), Engine.class);
             if (engine == null)
                 logger.warn("Failed to map engine");
-            logger.info(getRequestExecutionResultMessage(ENGINES_ENGINE_ENDPOINT(id), response.getStatus()));
         }
         else
             logger.info(response.getBody().getObject().toString());
         return engine;
+    }
+
+    public List<Engine> getAllEngines() {
+        List<Engine> engines = null;
+        Map<String, String> headers = new HashMap();
+        headers.put("Authorization", new AuthService().getAccessToken(actor));
+        HttpResponse<JsonNode> response = Http.sendGetRequest(ENGINES_ALL_ENDPOINT, headers);
+        if (response.isSuccess()) {
+            logger.info(getRequestExecutionResultMessage(ENGINES_ALL_ENDPOINT, response.getStatus()));
+            engines = ObjectConverter.convertToObjects(response.getBody().getArray(), Engine.class);
+            if (engines == null)
+                logger.warn("Failed to map engines");
+        }
+        else
+            logger.info(response.getBody().getObject().toString());
+        return engines;
+    }
+
+    public void deleteEngine(Integer id) {
+        Map<String, String> headers = new HashMap();
+        headers.put("Authorization", new AuthService().getAccessToken(actor));
+        HttpResponse<JsonNode> response = Http.sendDeleteRequest(ENGINES_DELETE_ENDPOINT(id), headers);
+        if (response.isSuccess()) {
+            logger.info(getRequestExecutionResultMessage(ENGINES_DELETE_ENDPOINT(id), response.getStatus()));
+        }
+        else
+            logger.info(response.getBody().getObject().toString());
     }
 }
