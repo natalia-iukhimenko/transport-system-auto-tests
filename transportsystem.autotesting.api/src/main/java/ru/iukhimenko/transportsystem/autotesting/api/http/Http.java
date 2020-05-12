@@ -30,6 +30,7 @@ public class Http {
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers) {
         return Unirest
                 .get(BASE_URI + endpoint)
+                .headers(headers)
                 .asJson()
                 .ifFailure(response -> {
                     logger.error("Error " + response.getStatus());
@@ -74,6 +75,20 @@ public class Http {
                 .put(BASE_URI + endpoint)
                 .headers(headers)
                 .body(body)
+                .asJson()
+                .ifFailure(response -> {
+                    logger.error("Error " + response.getStatus());
+                    response.getParsingError().ifPresent(e -> {
+                        logger.error("Parsing Exception: ", e);
+                        logger.error("Original body: " + e.getOriginalBody());
+                    });
+                });
+    }
+
+    public static HttpResponse<JsonNode> sendDeleteRequest(String endpoint, Map<String, String> headers) {
+        return Unirest
+                .delete(BASE_URI + endpoint)
+                .headers(headers)
                 .asJson()
                 .ifFailure(response -> {
                     logger.error("Error " + response.getStatus());
