@@ -27,7 +27,7 @@ public class AuthenticationTest extends ApiTest {
         assertThat(authenticatedUser)
                 .as("User is successfully authenticated with correct credentials")
                 .isNotNull()
-                .extracting("username")
+                .extracting(user -> user.getUsername())
                 .isEqualTo(registeredUser.getUsername());
     }
 
@@ -46,7 +46,7 @@ public class AuthenticationTest extends ApiTest {
         assertThat(authenticatedUser)
                 .as("Username is not case-sensitive")
                 .isNotNull()
-                .extracting("username")
+                .extracting(user -> user.getUsername())
                 .isEqualTo(registeredUser.getUsername());
     }
 
@@ -97,7 +97,7 @@ public class AuthenticationTest extends ApiTest {
         assertThat(authenticatedUser)
                 .as("Leading spaces in username are ignored on authentication")
                 .isNotNull()
-                .extracting("username")
+                .extracting(user -> user.getUsername())
                 .isEqualTo(registeredUser.getUsername());
     }
 
@@ -115,7 +115,7 @@ public class AuthenticationTest extends ApiTest {
         assertThat(authenticatedUser)
                 .as("Trailing spaces in username are ignored on authentication")
                 .isNotNull()
-                .extracting("username")
+                .extracting(user -> user.getUsername())
                 .isEqualTo(registeredUser.getUsername());
     }
 

@@ -34,7 +34,9 @@ public class EngineTest extends ApiTest {
         assertThat(engineId).as("Created engine has own id").isNotNull();
         expectedEngine.setId(engineId);
         Engine actualEngine = engineService.getEngine(engineId);
-        assertThat(actualEngine).as("Created engine stores all specified values").isEqualToComparingFieldByField(expectedEngine);
+        assertThat(actualEngine)
+                .as("Created engine stores all specified values")
+                .isEqualToComparingFieldByField(expectedEngine);
     }
 
     @ParameterizedTest(name = "An engine with fuel type = {0} can be created")
@@ -48,7 +50,9 @@ public class EngineTest extends ApiTest {
         Integer engineId = engineService.addEngine(testEngine);
         assertThat(engineId).as("Created engine has own id").isNotNull();
         Engine createdEngine = engineService.getEngine(engineId);
-        assertThat(createdEngine.getFuel()).as("Created engine stores specified fuel").isEqualTo(fuelType);
+        assertThat(createdEngine.getFuel())
+                .as("Created engine stores specified fuel")
+                .isEqualTo(fuelType);
     }
 
     @ParameterizedTest(name = "An engine with volume = {0} can be created")
@@ -62,7 +66,9 @@ public class EngineTest extends ApiTest {
         Integer engineId = engineService.addEngine(testEngine);
         assertThat(engineId).as("Created engine has own id").isNotNull();
         Engine createdEngine = engineService.getEngine(engineId);
-        assertThat(createdEngine.getVolume()).as("Created engine stores specified volume").isEqualTo(volume);
+        assertThat(createdEngine.getVolume())
+                .as("Created engine stores specified volume")
+                .isEqualTo(volume);
     }
 
     @Test
@@ -78,7 +84,9 @@ public class EngineTest extends ApiTest {
         expectedUpdatedEngine.setId(engineId);
         engineService.updateEngine(expectedUpdatedEngine);
         Engine actualUpdatedEngine = engineService.getEngine(engineId);
-        assertThat(actualUpdatedEngine).as("All engine values have been updated").isEqualToComparingFieldByField(expectedUpdatedEngine);
+        assertThat(actualUpdatedEngine)
+                .as("All engine values have been updated")
+                .isEqualToComparingFieldByField(expectedUpdatedEngine);
     }
 
     @Test
@@ -92,6 +100,9 @@ public class EngineTest extends ApiTest {
         List<Engine> systemEngines = engineService.getAllEngines();
         assertThat(systemEngines).extracting("id").as("Created engine id exists in the list of engines").contains(engineId);
         engineService.deleteEngine(engineId);
-        assertThat(engineService.getAllEngines()).extracting("id").as("Deleted engine doesn't exist in the list of engines").doesNotContain(engineId);
+        assertThat(engineService.getAllEngines())
+                .extracting("id")
+                .as("Deleted engine doesn't exist in the list of engines")
+                .doesNotContain(engineId);
     }
 }

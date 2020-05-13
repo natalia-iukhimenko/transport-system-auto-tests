@@ -24,7 +24,10 @@ public class RegistrationTest extends ApiTest {
         User user = new User(testUsername, TestDataManager.getValidPassword());
         AuthService authService = new AuthService();
         authService.registerUser(user);
-        assertThat(authService.getUsers()).as("Registered user exists in the system").contains(user);
+        assertThat(authService.getUsers())
+                .as("Registered user exists in the system")
+                .extracting("username")
+                .contains(user.getUsername());
     }
 
     @Test
@@ -39,7 +42,9 @@ public class RegistrationTest extends ApiTest {
         int numberOfUsers = authService.getUsers().size();
         User secondUser = new User(firstUser.getUsername(), "2");
         authService.registerUser(secondUser);
-        assertThat(authService.getUsers().size()).as("Number of users has not increased").isEqualTo(numberOfUsers);
+        assertThat(authService.getUsers().size())
+                .as("Number of users has not increased")
+                .isEqualTo(numberOfUsers);
     }
 
     @ParameterizedTest(name = "A user can not register with unsupported username: {0}")
@@ -53,7 +58,9 @@ public class RegistrationTest extends ApiTest {
         int numberOfUsers = authService.getUsers().size();
         User testUser = new User(username, password);
         authService.registerUser(testUser);
-        assertThat(authService.getUsers().size()).as("Number of users has not increased").isEqualTo(numberOfUsers);
+        assertThat(authService.getUsers().size())
+                .as("Number of users has not increased")
+                .isEqualTo(numberOfUsers);
     }
 
     @ParameterizedTest(name = "A user can not register with unsupported password: {0}")
@@ -67,7 +74,9 @@ public class RegistrationTest extends ApiTest {
         int numberOfUsers = authService.getUsers().size();
         User testUser = new User(username, password);
         authService.registerUser(testUser);
-        assertThat(authService.getUsers().size()).as("Number of users has not increased").isEqualTo(numberOfUsers);
+        assertThat(authService.getUsers().size())
+                .as("Number of users has not increased")
+                .isEqualTo(numberOfUsers);
     }
 
     @Test
@@ -91,6 +100,8 @@ public class RegistrationTest extends ApiTest {
         AuthService authService = new AuthService();
         int numberOfUsers = authService.getUsers().size();
         authService.registerUser(user);
-        assertThat(authService.getUsers().size()).as("Number of users has not increased").isEqualTo(numberOfUsers);
+        assertThat(authService.getUsers().size())
+                .as("Number of users has not increased")
+                .isEqualTo(numberOfUsers);
     }
 }
