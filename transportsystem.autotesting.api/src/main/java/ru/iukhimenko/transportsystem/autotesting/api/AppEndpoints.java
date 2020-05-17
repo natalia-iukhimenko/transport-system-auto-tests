@@ -9,6 +9,7 @@ public class AppEndpoints {
     public static final String ENGINES_EDIT_ENDPOINT = "/api/engines/edit";
     private static String engines_delete_endpoint = "/api/engines/delete/%s";
     private static String engines_engine_endpoint = "/api/engines/%s";
+    public static final String TRANSPORTS_ADD = "/api/transports/add";
 
     public static String ENGINES_ENGINE_ENDPOINT(Integer id) {
         return String.format(engines_engine_endpoint, id);

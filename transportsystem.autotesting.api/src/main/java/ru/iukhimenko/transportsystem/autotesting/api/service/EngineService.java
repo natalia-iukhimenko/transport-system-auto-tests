@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
-import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.getHttpMessageText;
 
 public class EngineService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
