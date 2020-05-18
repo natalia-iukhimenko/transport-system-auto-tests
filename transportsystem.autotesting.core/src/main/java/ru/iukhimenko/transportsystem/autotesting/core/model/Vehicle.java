@@ -10,13 +10,13 @@ public class Vehicle {
     private final Integer id;
     private final String number;
     private final String vin;
-    private final String transportModelId;
+    private final Integer transportModelId;
     private final String producedYear;
     private final String startupDate;
     private final String writeOffDate;
     private final String color;
-    private final String enginePower;
-    private final String engineId;
+    private final Integer enginePower;
+    private final Integer engineId;
 
     private Vehicle(VehicleBuilder vehicleBuilder) {
         this.id = vehicleBuilder.id;
@@ -47,7 +47,7 @@ public class Vehicle {
     }
 
     @JsonProperty("transportmodelid")
-    public String getTransportModelId() {
+    public Integer getTransportModelId() {
         return transportModelId;
     }
 
@@ -72,12 +72,12 @@ public class Vehicle {
     }
 
     @JsonProperty("enginepower")
-    public String getEnginePower() {
+    public Integer getEnginePower() {
         return enginePower;
     }
 
     @JsonProperty("engineid")
-    public String getEngineId() {
+    public Integer getEngineId() {
         return engineId;
     }
 
@@ -85,13 +85,13 @@ public class Vehicle {
         private Integer id;
         private String number;
         private String vin;
-        private String transportModelId;
+        private Integer transportModelId;
         private String producedYear;
         private String startupDate;
         private String writeOffDate;
         private String color;
-        private String enginePower;
-        private String engineId;
+        private Integer enginePower;
+        private Integer engineId;
 
         @JsonProperty("id")
         public VehicleBuilder setId(Integer id) {
@@ -112,7 +112,7 @@ public class Vehicle {
         }
 
         @JsonProperty("transportmodel")
-        public VehicleBuilder setTransportModelId(String transportModelId) {
+        public VehicleBuilder setTransportModelId(Integer transportModelId) {
             this.transportModelId = transportModelId;
             return this;
         }
@@ -142,13 +142,13 @@ public class Vehicle {
         }
 
         @JsonProperty("enginepower")
-        public VehicleBuilder setEnginePower(String enginePower) {
+        public VehicleBuilder setEnginePower(Integer enginePower) {
             this.enginePower = enginePower;
             return this;
         }
 
         @JsonProperty("engine")
-        public VehicleBuilder setEngineId(String engineId) {
+        public VehicleBuilder setEngineId(Integer engineId) {
             this.engineId = engineId;
             return this;
         }
