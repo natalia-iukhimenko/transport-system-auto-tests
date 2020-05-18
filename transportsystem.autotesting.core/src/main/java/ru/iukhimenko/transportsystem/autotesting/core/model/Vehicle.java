@@ -11,7 +11,7 @@ public class Vehicle {
     private final String number;
     private final String vin;
     private final Integer transportModelId;
-    private final String producedYear;
+    private final Integer producedYear;
     private final String startupDate;
     private final String writeOffDate;
     private final String color;
@@ -52,7 +52,7 @@ public class Vehicle {
     }
 
     @JsonProperty("producedyear")
-    public String getProducedYear() {
+    public Integer getProducedYear() {
         return producedYear;
     }
 
@@ -86,7 +86,7 @@ public class Vehicle {
         private String number;
         private String vin;
         private Integer transportModelId;
-        private String producedYear;
+        private Integer producedYear;
         private String startupDate;
         private String writeOffDate;
         private String color;
@@ -118,7 +118,7 @@ public class Vehicle {
         }
 
         @JsonProperty("producedyear")
-        public VehicleBuilder setProducedYear(String producedYear) {
+        public VehicleBuilder setProducedYear(Integer producedYear) {
             this.producedYear = producedYear;
             return this;
         }
