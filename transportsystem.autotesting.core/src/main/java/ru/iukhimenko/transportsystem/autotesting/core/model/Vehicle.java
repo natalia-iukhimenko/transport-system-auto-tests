@@ -3,9 +3,9 @@ package ru.iukhimenko.transportsystem.autotesting.core.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-//@JsonDeserialize(builder = Vehicle.VehicleBuilder.class)
+@JsonDeserialize(builder = Vehicle.VehicleBuilder.class)
 public class Vehicle {
     private final Integer id;
     private final String number;
@@ -81,6 +81,7 @@ public class Vehicle {
         return engineId;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class VehicleBuilder {
         private Integer id;
         private String number;

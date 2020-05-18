@@ -37,4 +37,17 @@ public class VehicleService {
         }
         return createdVehicleId;
     }
+
+    public Vehicle getVehicle(Integer id) {
+        Vehicle vehicle = null;
+        Map<String, String> headers = new HashMap();
+        headers.put("Authorization", new AuthService().getAccessToken(actor));
+        HttpResponse<JsonNode> response = Http.sendGetRequest(TRANSPORTS_TRANSPORT_ENDPOINT(id), headers);
+        if (response.isSuccess()) {
+            vehicle = ObjectConverter.convertToObject(response.getBody().getObject(), Vehicle.class);
+            if (vehicle == null)
+                logger.warn("Failed to map a vehicle");
+        }
+        return vehicle;
+    }
 }

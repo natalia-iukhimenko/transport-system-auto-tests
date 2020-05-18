@@ -10,6 +10,7 @@ public class AppEndpoints {
     private static String engines_delete_endpoint = "/api/engines/delete/%s";
     private static String engines_engine_endpoint = "/api/engines/%s";
     public static final String TRANSPORTS_ADD = "/api/transports/add";
+    private static String transports_transport_endpoint = "/api/transports/%s";
 
     public static String ENGINES_ENGINE_ENDPOINT(Integer id) {
         return String.format(engines_engine_endpoint, id);
@@ -18,4 +19,9 @@ public class AppEndpoints {
     public static String ENGINES_DELETE_ENDPOINT(Integer id) {
         return String.format(engines_delete_endpoint, id);
     }
+
+    public static String TRANSPORTS_TRANSPORT_ENDPOINT(Integer id) {
+        return String.format(transports_transport_endpoint, id);
+    }
+
 }
