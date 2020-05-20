@@ -18,13 +18,13 @@ public class TestDataManager {
         return validUsername;
     }
 
-    public static String getCarNumber() {
+    public static String getUniqueCarNumber() {
         FakeValuesService fakeValuesService = new FakeValuesService(new Locale("ru-RU"), new RandomService());
         String carNumber = fakeValuesService.regexify("[АВЕКМНОРСТУХ]\\d{3}[АВЕКМНОРСТУХ]{2}\\d{2,3}");
         return carNumber;
     }
 
-    public static String getVinNumber() {
+    public static String getUniqueVinNumber() {
         FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-GB"), new RandomService());
         String vinNumber = fakeValuesService.regexify("[ABCDEFGHJKLMNPRSTUVWXYZ0-9]{16}");
         return vinNumber;
