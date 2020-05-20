@@ -1,6 +1,6 @@
 package ru.iukhimenko.transportsystem.autotesting.api;
-import kong.unirest.JacksonObjectMapper;
 import kong.unirest.Unirest;
+import kong.unirest.jackson.JacksonObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import ru.iukhimenko.transportsystem.autotesting.core.util.FileUtils;
