@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.EngineService;
+import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
 import ru.iukhimenko.transportsystem.autotesting.api.service.VehicleService;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
+import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Vehicle;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
@@ -29,7 +31,16 @@ public class VehicleTest extends ApiTest {
         EngineService testEngine = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
         testEngineId = testEngine.addEngine(new Engine("Auto Engine", 1500, "GAS"));
         assertThat(testEngineId).isNotNull();
-        testTransportModelId = 2; // TODO: replace with a created one
+        TransportModel testModel = new TransportModel.TransportModelBuilder()
+                .setName("CX-5")
+                .setProducer("Mazda")
+                .setWidth(1840)
+                .setHeight(1675)
+                .setLength(4550)
+                .setMaxWeight(1617)
+                .build();
+        testTransportModelId = new TransportModelService(new User(ADMIN_USERNAME, ADMIN_PASSWORD)).addTransportModel(testModel);
+        assertThat(testTransportModelId).isNotNull();
     }
 
     @Test

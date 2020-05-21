@@ -25,7 +25,7 @@ public class VehicleService {
         Integer createdVehicleId = null;
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
-        HttpResponse<JsonNode> response = Http.sendPostRequest(TRANSPORTS_ADD, headers, vehicle);
+        HttpResponse<JsonNode> response = Http.sendPostRequest(TRANSPORTS_ADD_ENDPOINT, headers, vehicle);
         if (response.isSuccess()) {
             try {
                 createdVehicleId = response.getBody().getObject().getInt("id");
