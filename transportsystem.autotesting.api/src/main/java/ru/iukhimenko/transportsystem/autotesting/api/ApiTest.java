@@ -15,6 +15,10 @@ public class ApiTest {
         configureUnirest();
     }
 
+    private void Test() {
+        System.out.println("HEHE");
+    }
+
     private static void configureUnirest() {
         Unirest.config()
                 .addDefaultHeader("Content-Type", "application/json")
