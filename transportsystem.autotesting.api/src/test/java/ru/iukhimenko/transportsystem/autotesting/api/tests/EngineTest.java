@@ -5,11 +5,14 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.EngineService;
+import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
+import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
@@ -19,10 +22,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_PASSWORD;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_USERNAME;
 
+@Tag("api_engines")
+@ApiRegression
 public class EngineTest extends ApiTest {
     final String PETROL = "PETROL", DIESEL = "DIESEL", GAS = "GAS", ELECTRIC = "ELECTRIC", HYBRID = "HYBRID";
 
     @Test
+    @ApiSmoke
     @DisplayName("An engine with all specified values can be created")
     @Epic("Engines")
     @Feature("Add Engine")
@@ -72,6 +78,7 @@ public class EngineTest extends ApiTest {
     }
 
     @Test
+    @ApiSmoke
     @DisplayName("An engine can be updated")
     @Epic("Engines")
     @Feature("Edit Engine")
@@ -90,6 +97,7 @@ public class EngineTest extends ApiTest {
     }
 
     @Test
+    @ApiSmoke
     @DisplayName("An unused engine can be deleted")
     @Epic("Engines")
     @Feature("Delete Engine")

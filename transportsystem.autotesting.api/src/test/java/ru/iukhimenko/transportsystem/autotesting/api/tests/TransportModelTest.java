@@ -5,6 +5,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 
@@ -12,11 +13,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_USERNAME;
 import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_PASSWORD;
 import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
+import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
+import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
+@Tag("api_transport_model")
+@ApiRegression
 public class TransportModelTest extends ApiTest {
     @Test
+    @ApiSmoke
     @DisplayName("A transport model can be created")
     @Epic("Transport Models")
     @Feature("Add transport model")

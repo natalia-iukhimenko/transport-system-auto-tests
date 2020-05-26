@@ -5,15 +5,21 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.AuthService;
+import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
+import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("api_auth")
+@ApiRegression
 public class AuthenticationTest extends ApiTest {
     @Test
+    @ApiSmoke
     @DisplayName("User can log in with correct credentials")
     @Epic("Authentication")
     @Severity(SeverityLevel.BLOCKER)
