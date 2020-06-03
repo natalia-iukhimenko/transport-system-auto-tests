@@ -8,8 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
-import static ru.iukhimenko.transportsystem.autotesting.api.Configs.*;
-import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.getHttpMessageText;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
 
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;

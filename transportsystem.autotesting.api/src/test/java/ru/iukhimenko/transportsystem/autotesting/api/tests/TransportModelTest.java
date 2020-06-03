@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_USERNAME;
-import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_PASSWORD;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
 import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;

@@ -19,8 +19,8 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_PASSWORD;
-import static ru.iukhimenko.transportsystem.autotesting.api.Configs.ADMIN_USERNAME;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
 
 @Tag("api_engines")
 @ApiRegression
