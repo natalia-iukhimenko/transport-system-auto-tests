@@ -12,6 +12,7 @@
     <modules>
         <module>transportsystem.autotesting.core</module>
         <module>transportsystem.autotesting.api</module>
+        <module>transportsystem.autotesting.ui</module>
     </modules>
 
     <properties>
