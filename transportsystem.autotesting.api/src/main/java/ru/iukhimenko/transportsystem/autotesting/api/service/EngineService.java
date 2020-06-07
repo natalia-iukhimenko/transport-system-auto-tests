@@ -15,11 +15,12 @@ import java.util.Map;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
 
-public class EngineService {
+public class EngineService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
     private User actor;
 
     public EngineService(User actor) {
+        super();
         this.actor = actor;
     }
 

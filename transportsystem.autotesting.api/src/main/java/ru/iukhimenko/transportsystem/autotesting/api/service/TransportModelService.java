@@ -14,11 +14,12 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TransportModelService {
+public class TransportModelService extends ApiService {
     private User actor;
     private Logger logger = LoggerFactory.getLogger(TransportModelService.class);
 
     public TransportModelService(User actor) {
+        super();
         this.actor = actor;
     }
 

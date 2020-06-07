@@ -13,11 +13,12 @@ import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VehicleService {
+public class VehicleService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(VehicleService.class);
     private User actor;
 
     public VehicleService(User actor){
+        super();
         this.actor = actor;
     }
 

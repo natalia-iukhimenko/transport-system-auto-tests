@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AuthService {
+public class AuthService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     public void registerUser(User user) {
