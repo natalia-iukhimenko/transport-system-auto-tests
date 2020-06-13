@@ -2,17 +2,22 @@ package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.UiTest;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
+import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiRegression;
+
 import java.util.stream.Stream;
 import static com.codeborne.selenide.Selenide.open;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("ui_auth")
+@UiRegression
 public class LogInTest extends UiTest {
     @ParameterizedTest
     @MethodSource("provideWrongUsernamePasswordPair")
