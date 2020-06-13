@@ -1,14 +1,14 @@
 package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.UiTest;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
-
 import java.util.stream.Stream;
-
 import static com.codeborne.selenide.Selenide.open;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LogInTest extends UiTest {
     @ParameterizedTest
     @MethodSource("provideWrongUsernamePasswordPair")
-    public void alertIsShownWhenLogInWithWrongUsernameOrPassword(String username, String password) {
+    @Severity(SeverityLevel.CRITICAL)
+    public void alertIsShownWhenLogInWithWrongUsernameOrPasswordTest(String username, String password) {
         LogInPage page = open(BASE_URI, LogInPage.class);
         page.logInWith(username, password);
         assertThat(page.showsWrongLoginOrPasswordMessage())
@@ -25,7 +26,8 @@ public class LogInTest extends UiTest {
     }
 
     @Test
-    public void loginFieldIsHighlightedAsInvalidWhenSubmitWithEmptyLogin() {
+    @Severity(SeverityLevel.NORMAL)
+    public void loginIsHighlightedAsInvalidWhenSubmitWithEmptyLoginTest() {
         LogInPage page = open(BASE_URI, LogInPage.class);
         page.setPassword(ADMIN_PASSWORD)
                 .clickLogInButton();
@@ -35,7 +37,8 @@ public class LogInTest extends UiTest {
     }
 
     @Test
-    public void passwordFieldIsHighlightedAsInvalidWhenSubmitWithEmptyPassword() {
+    @Severity(SeverityLevel.NORMAL)
+    public void passwordIsHighlightedAsInvalidWhenSubmitWithEmptyPasswordTest() {
         LogInPage page = open(BASE_URI, LogInPage.class);
         page.setLogin(ADMIN_USERNAME)
                 .clickLogInButton();
