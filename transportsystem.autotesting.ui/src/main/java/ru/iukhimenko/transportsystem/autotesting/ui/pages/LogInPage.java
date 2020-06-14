@@ -38,10 +38,11 @@ public class LogInPage implements IPage {
         return new RegistrationPage();
     }
 
-    public void logInWith(String login, String password) {
+    public HomePage logInWith(String login, String password) {
         setLogin(login);
         setPassword(password);
         clickLogInButton();
+        return new HomePage();
     }
 
     public boolean showsWrongLoginOrPasswordMessage() {
