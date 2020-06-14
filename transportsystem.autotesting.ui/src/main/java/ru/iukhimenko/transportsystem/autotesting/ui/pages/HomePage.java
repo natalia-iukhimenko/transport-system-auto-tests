@@ -4,11 +4,19 @@ import ru.iukhimenko.transportsystem.autotesting.ui.elements.Menu;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.PageHeader;
 
 public class HomePage {
-    public PageHeader header;
-    public Menu menu;
+    private PageHeader header;
+    private Menu menu;
 
     public HomePage() {
         header = new PageHeader();
         menu = new Menu();
+    }
+
+    public PageHeader getPageHeader() {
+        return header;
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 }
