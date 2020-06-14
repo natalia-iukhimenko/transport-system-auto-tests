@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.IPage;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -56,10 +57,10 @@ public class LogInPage implements IPage {
     }
 
     public boolean isLoginFieldHighlightedAsInvalid() {
-        return isFieldHighlightedAsInvalid(loginField);
+        return SelenideElementHelper.isFieldHighlightedAsInvalid(loginField);
     }
 
     public boolean isPasswordFieldHighlightedAsInvalid() {
-        return isFieldHighlightedAsInvalid(passwordField);
+        return SelenideElementHelper.isFieldHighlightedAsInvalid(passwordField);
     }
 }

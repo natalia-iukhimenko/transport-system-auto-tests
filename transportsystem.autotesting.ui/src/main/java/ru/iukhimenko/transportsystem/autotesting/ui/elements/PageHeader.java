@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -19,20 +20,12 @@ public class PageHeader {
     }
 
     public PageHeader expandUserMenu() {
-        if (userMenu.attr("aria-expanded").equals("false")) {
-            userMenu.click();
-            userMenu.shouldHave(attribute("aria-expanded", "true"));
-            logger.info("User menu has been expanded");
-        }
+        SelenideElementHelper.expand(userMenu);
         return this;
     }
 
     public PageHeader collapseUserMenu() {
-        if (userMenu.attr("aria-expanded").equals("true")) {
-            userMenu.click();
-            userMenu.shouldHave(attribute("aria-expanded", "false"));
-            logger.info("User menu has been collapsed");
-        }
+        SelenideElementHelper.collapse(userMenu);
         return this;
     }
 
