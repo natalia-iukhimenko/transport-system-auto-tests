@@ -1,5 +1,6 @@
 package ru.iukhimenko.transportsystem.autotesting.ui.base;
 
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import ru.iukhimenko.transportsystem.autotesting.core.util.FileUtils;
 
@@ -12,5 +13,6 @@ public class UiTest {
         BASE_URI = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "baseURI");
         ADMIN_USERNAME = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "adminUsername");
         ADMIN_PASSWORD = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "adminPassword");
+        Configuration.browser = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "browser");
     }
 }
