@@ -29,9 +29,16 @@
             <version>${selenide.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenide</artifactId>
+            <version>${allure.selenide.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <properties>
         <selenide.version>5.12.2</selenide.version>
+        <allure.selenide.version>2.13.3</allure.selenide.version>
     </properties>
 </project>
