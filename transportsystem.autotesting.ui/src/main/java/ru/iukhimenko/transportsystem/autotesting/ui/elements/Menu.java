@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class Menu {
     Logger logger = LoggerFactory.getLogger(Menu.class);
-    private SelenideElement vehicleMenuItem = $(By.xpath("//a[text()='Транспортные средства']"));
+    private SelenideElement vehicleMenuItem = $(By.xpath("//a[@aria-controls='accordion-1']"));
 
     public VehicleMenuItem expandVehicleMenuItem() {
         SelenideElementHelper.expand(vehicleMenuItem);

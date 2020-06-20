@@ -1,23 +1,25 @@
 package ru.iukhimenko.transportsystem.autotesting.ui.elements;
 
 import org.openqa.selenium.By;
+import ru.iukhimenko.transportsystem.autotesting.ui.pages.VehicleFleetPage;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class VehicleMenuItem {
-    public void selectEngines() {
-        $(By.linkText("/engines")).click();
-    }
-
-    public void selectVehicleDocuments() {
-        $(By.linkText("/transportdocs")).click();
+    public VehicleFleetPage selectVehicleFleet() {
+        $(By.xpath("//a[@href='/transports']")).click();
+        return new VehicleFleetPage();
     }
 
     public void selectAddVehicle() {
-        $(By.linkText("/transports/add")).click();
+        $(By.xpath("//a[@href='/transports/add']")).click();
     }
 
-    public void selectListOfVehicles() {
-        $(By.linkText("/transports")).click();
+    public void selectVehicleDocuments() {
+        $(By.xpath("//a[@href='/transportdocs']")).click();
     }
-}
+
+    public void selectEngines() {
+        $(By.xpath("//a[@href='/engines']")).click();
+    }
+ }

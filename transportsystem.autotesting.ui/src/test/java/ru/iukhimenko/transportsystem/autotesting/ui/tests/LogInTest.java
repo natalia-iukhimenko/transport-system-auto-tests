@@ -2,7 +2,6 @@ package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @UiRegression
 public class LogInTest extends UiTest {
     @Test
-    @Disabled
     @UiSmoke
     @Severity(SeverityLevel.BLOCKER)
     public void usernameIsDisplayedAfterSuccessfulAuthenticationTest() {
