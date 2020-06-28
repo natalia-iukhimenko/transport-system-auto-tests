@@ -12,6 +12,7 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TransportModelService extends ApiService {
@@ -51,5 +52,18 @@ public class TransportModelService extends ApiService {
                 logger.warn("Failed to map transport model");
         }
         return model;
+    }
+
+    public List<TransportModel> getTransportModels() {
+        List<TransportModel> models = null;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", new AuthService().getAccessToken(actor));
+        HttpResponse<JsonNode> response = Http.sendGetRequest(AppEndpoints.TRANSPORT_MODELS_ENDPOINT, headers);
+        if (response.isSuccess()) {
+            models = ObjectConverter.convertToObjects(response.getBody().getArray(), TransportModel.class);
+            if (models == null)
+                logger.warn("Failed to map transport models");
+        }
+        return models;
     }
 }
