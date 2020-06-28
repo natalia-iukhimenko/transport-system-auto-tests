@@ -14,8 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.UiTest;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.RegistrationPage;
-import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiRegression;
-import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiSmoke;
+import ru.iukhimenko.transportsystem.autotesting.ui.tags.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static com.codeborne.selenide.Selenide.open;

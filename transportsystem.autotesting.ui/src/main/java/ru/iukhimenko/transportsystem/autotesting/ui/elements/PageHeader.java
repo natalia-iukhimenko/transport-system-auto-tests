@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
+import ru.iukhimenko.transportsystem.autotesting.ui.pages.HomePage;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -27,6 +28,11 @@ public class PageHeader {
     public PageHeader collapseUserMenu() {
         SelenideElementHelper.collapse(userMenu);
         return this;
+    }
+
+    public HomePage toHomePage() {
+        homePageLink.click();
+        return new HomePage();
     }
 
     public LogInPage clickLogOutButton() {
