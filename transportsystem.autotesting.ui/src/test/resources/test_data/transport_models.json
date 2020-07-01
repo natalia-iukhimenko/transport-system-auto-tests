@@ -1,0 +1,26 @@
+[
+{
+	"name":"Camry",
+	"producer":"Toyota",
+	"maxweight":"2100",
+	"length":"4850",
+	"width":"1825",
+	"height":"1480"
+},
+{
+	"name":"Tiguan",
+	"producer":"Volkswagen",
+	"maxweight":"1960",
+	"length":"4486",
+	"width":"1839",
+	"height":"1673"
+},
+{
+	"name":"Aveo",
+	"producer":"Chevrolet",
+	"maxweight":"1600",
+	"length":"4399",
+	"width":"1735",
+	"height":"1517"
+}
+]

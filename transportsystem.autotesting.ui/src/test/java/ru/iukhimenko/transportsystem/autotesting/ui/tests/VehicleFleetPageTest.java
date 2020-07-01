@@ -3,12 +3,18 @@ package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
+import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
+import ru.iukhimenko.transportsystem.autotesting.core.model.User;
+import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.UiTest;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.VehiclesTable;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.HomePage;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.VehicleFleetPage;
 import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiRegression;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
@@ -23,9 +29,9 @@ public class VehicleFleetPageTest extends UiTest {
     final int NAME_COLUMN = 0, MANUFACTURER_COLUMN = 1, MAX_WEIGHT_COLUMN = 2;
 
     @BeforeAll
-    public void logIn() {
-        open(BASE_URI, LogInPage.class)
-                .logInWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+    public void createTestDataAndLogIn() {
+        createTransportModels();
+        open(BASE_URI, LogInPage.class).logInWith(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 
     @BeforeEach
@@ -36,7 +42,7 @@ public class VehicleFleetPageTest extends UiTest {
         table = vehicleFleetPage.getVehiclesTable();
     }
 
-    @ParameterizedTest(name = "Can sort values ascending in column {0}")
+    @ParameterizedTest(name = "Can sort values ascending in column {0}", columnIndex)
     @ValueSource(ints = { NAME_COLUMN, MANUFACTURER_COLUMN, MAX_WEIGHT_COLUMN })
     public void checkCanSortAscendingTest(Integer columnIndex) {
         table.clickColumnHeader(columnIndex);
@@ -58,6 +64,12 @@ public class VehicleFleetPageTest extends UiTest {
     @AfterEach
     public void goToMainMenu() {
         vehicleFleetPage.getPageHeader().toHomePage();
+    }
+
+    private void createTransportModels() {
+        List<TransportModel> transportModels = TestDataManager.getTransportModelsFromJson();
+        TransportModelService service = new TransportModelService(new User(ADMIN_USERNAME,ADMIN_PASSWORD));
+        transportModels.forEach((transportModel) -> service.addTransportModel(transportModel));
     }
 
     private String getColumnNameByIndex(int columnIndex) {
