@@ -18,28 +18,14 @@ public class TransportModelsTable extends Table {
     }
 
     public TransportModelsTable expandRow(int rowIndex) {
-        List<SelenideElement> rows = getRows();
-        if (rowIndex < rows.size()) {
-            SelenideElement row = rows.get(rowIndex);
-            if (!isRowSelected(row)) {
-                getRowCells(rowIndex).get(0).click();
-                row.shouldHave(attribute("aria-selected", "true"));
-                logger.info("Row {} has been expanded", rowIndex);
-            }
-        }
+        selectRow(rowIndex);
+        logger.info("Row {} has been expanded", rowIndex);
         return this;
     }
 
     public TransportModelsTable collapseRow(int rowIndex) {
-        List<SelenideElement> rows = getRows();
-        if (rowIndex < rows.size()) {
-            SelenideElement row = rows.get(rowIndex);
-            if (isRowSelected(row)) {
-                getRowCells(rowIndex).get(0).click();
-                row.shouldHave(attribute("aria-selected", "false"));
-                logger.info("Row {} has been collapsed", rowIndex);
-            }
-        }
+        unselectRow(rowIndex);
+        logger.info("Row {} has been expanded", rowIndex);
         return this;
     }
 }

@@ -31,10 +31,31 @@ public class Table {
         return getRows().get(rowIndex).findAll(By.tagName("td"));
     }
 
+    public void selectRow(int rowIndex) {
+        List<SelenideElement> rows = getRows();
+        if (rowIndex < rows.size()) {
+            SelenideElement row = rows.get(rowIndex);
+            if (!isRowSelected(row)) {
+                getRowCells(rowIndex).get(0).click();
+                row.shouldHave(attribute("aria-selected", "true"));
+            }
+        }
+    }
+
+    public void unselectRow(int rowIndex) {
+        List<SelenideElement> rows = getRows();
+        if (rowIndex < rows.size()) {
+            SelenideElement row = rows.get(rowIndex);
+            if (isRowSelected(row)) {
+                getRowCells(rowIndex).get(0).click();
+                row.shouldHave(attribute("aria-selected", "false"));
+            }
+        }
+    }
+
     public String getCellValue(int rowIndex, int columnIndex) {
         return getRowCells(rowIndex).get(columnIndex).text();
     }
-
 
     public List<SelenideElement> getColumnHeaders() {
         return table.findAll(By.xpath("thead/tr/th"));
@@ -55,7 +76,6 @@ public class Table {
         return columnValues;
     }
 
-    // todo: one method
     public boolean isColumnSortedAsc(int columnIndex) {
         AttributeWithValue sortedAscAttribute = new AttributeWithValue("aria-sort", "ascending");
         SelenideElement column = getColumnHeaders().get(columnIndex);
