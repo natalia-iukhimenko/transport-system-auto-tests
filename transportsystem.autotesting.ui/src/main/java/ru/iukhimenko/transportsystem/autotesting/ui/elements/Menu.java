@@ -13,7 +13,7 @@ public class Menu {
 
     public VehicleMenuItem expandVehicleMenuItem() {
         SelenideElementHelper.expand(vehicleMenuItem);
-        logger.info("Vehicle menu has been expanded");
+        logger.info("'Vehicle' menu has been expanded");
         return new VehicleMenuItem();
     }
 }
