@@ -1,18 +1,18 @@
 package ru.iukhimenko.transportsystem.autotesting.ui.pages;
 
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.PageHeader;
-import ru.iukhimenko.transportsystem.autotesting.ui.elements.VehiclesTable;
+import ru.iukhimenko.transportsystem.autotesting.ui.elements.TransportModelsTable;
 
 public class VehicleFleetPage {
     private PageHeader header;
-    private VehiclesTable vehiclesTable;
+    private TransportModelsTable transportModelsTable;
 
     public VehicleFleetPage() {
         header = new PageHeader();
-        vehiclesTable = new VehiclesTable();
+        transportModelsTable = new TransportModelsTable();
     }
-    public VehiclesTable getVehiclesTable() {
-        return vehiclesTable;
+    public TransportModelsTable getTransportModelsTable() {
+        return transportModelsTable;
     }
 
     public PageHeader getPageHeader() {

@@ -8,7 +8,7 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.UiTest;
-import ru.iukhimenko.transportsystem.autotesting.ui.elements.VehiclesTable;
+import ru.iukhimenko.transportsystem.autotesting.ui.elements.TransportModelsTable;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.HomePage;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.LogInPage;
 import ru.iukhimenko.transportsystem.autotesting.ui.pages.VehicleFleetPage;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class VehicleFleetPageTest extends UiTest {
     VehicleFleetPage vehicleFleetPage;
-    VehiclesTable table;
+    TransportModelsTable table;
     final int NAME_COLUMN = 0, MANUFACTURER_COLUMN = 1, MAX_WEIGHT_COLUMN = 2;
 
     @BeforeAll
@@ -39,10 +39,10 @@ public class VehicleFleetPageTest extends UiTest {
         vehicleFleetPage = new HomePage().getMenu()
                 .expandVehicleMenuItem()
                 .selectVehicleFleet();
-        table = vehicleFleetPage.getVehiclesTable();
+        table = vehicleFleetPage.getTransportModelsTable();
     }
 
-    @ParameterizedTest(name = "Can sort values ascending in column {0}", columnIndex)
+    @ParameterizedTest(name = "Can sort values ascending in column {0}")
     @ValueSource(ints = { NAME_COLUMN, MANUFACTURER_COLUMN, MAX_WEIGHT_COLUMN })
     public void checkCanSortAscendingTest(Integer columnIndex) {
         table.clickColumnHeader(columnIndex);

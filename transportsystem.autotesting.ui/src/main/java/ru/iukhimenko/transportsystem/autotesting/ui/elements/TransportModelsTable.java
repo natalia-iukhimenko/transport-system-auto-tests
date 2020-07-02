@@ -10,14 +10,14 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class VehiclesTable extends Table {
-    private Logger logger = LoggerFactory.getLogger(VehiclesTable.class);
+public class TransportModelsTable extends Table {
+    private Logger logger = LoggerFactory.getLogger(TransportModelsTable.class);
 
-    public VehiclesTable() {
+    public TransportModelsTable() {
         super($(By.id("vehicleTable")));
     }
 
-    public VehiclesTable expandRow(int rowIndex) {
+    public TransportModelsTable expandRow(int rowIndex) {
         List<SelenideElement> rows = getRows();
         if (rowIndex < rows.size()) {
             SelenideElement row = rows.get(rowIndex);
@@ -30,7 +30,7 @@ public class VehiclesTable extends Table {
         return this;
     }
 
-    public VehiclesTable collapseRow(int rowIndex) {
+    public TransportModelsTable collapseRow(int rowIndex) {
         List<SelenideElement> rows = getRows();
         if (rowIndex < rows.size()) {
             SelenideElement row = rows.get(rowIndex);
