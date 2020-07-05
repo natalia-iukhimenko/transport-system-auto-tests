@@ -3,21 +3,24 @@ package ru.iukhimenko.transportsystem.autotesting.ui.pages;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.AddTransportDocumentForm;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.PageHeader;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.TransportDocumentsTable;
-import ru.iukhimenko.transportsystem.autotesting.ui.elements.TransportModelsTable;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class TransportDocumentsPage {
     private PageHeader header;
-    private TransportDocumentsTable transportModelsTable;
+    private TransportDocumentsTable transportDocumentsTable;
 
     public TransportDocumentsPage() {
         header = new PageHeader();
-        transportModelsTable = new TransportDocumentsTable();
+        transportDocumentsTable = new TransportDocumentsTable();
+    }
+
+    public PageHeader getPageHeader() {
+        return header;
     }
 
     public TransportDocumentsTable getTransportDocumentsTable() {
-        return transportModelsTable;
+        return transportDocumentsTable;
     }
 
     public AddTransportDocumentForm clickAddButton() {
