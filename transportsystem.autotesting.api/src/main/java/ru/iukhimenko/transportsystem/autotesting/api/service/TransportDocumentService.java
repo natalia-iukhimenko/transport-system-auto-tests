@@ -16,15 +16,17 @@ import java.util.List;
 import java.util.Map;
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_DOCUMENTS_ADD_ENDPOINT;
 
-public class TransportDocumentService {
+public class TransportDocumentService extends ApiService {
     private User actor;
     private Logger logger = LoggerFactory.getLogger(TransportDocumentService.class);
 
     public TransportDocumentService() {
+        super();
         actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 
     public TransportDocumentService(User actor) {
+        super();
         this.actor = actor;
     }
 
