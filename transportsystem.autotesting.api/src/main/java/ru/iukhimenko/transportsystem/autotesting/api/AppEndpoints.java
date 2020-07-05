@@ -14,6 +14,8 @@ public class AppEndpoints {
     public static final String TRANSPORT_MODELS_ADD_ENDPOINT = "/api/transportmodels/add";
     private static final String transport_model_endpoint = "/api/transportmodels/%s";
     public static final String TRANSPORT_MODELS_ENDPOINT = "/api/transportmodels";
+    public static final String TRANSPORT_DOCUMENTS_ADD_ENDPOINT = "/api/transportdocs/add";
+    public static final String TRANSPORT_DOCUMENTS_ENDPOINT = "/api/transportdocs";
 
     public static String ENGINES_ENGINE_ENDPOINT(Integer id) {
         return String.format(engines_engine_endpoint, id);
