@@ -4,9 +4,7 @@ import com.github.javafaker.Faker;
 import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +30,12 @@ public class TestDataManager {
         FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-GB"), new RandomService());
         String vinNumber = fakeValuesService.regexify("[ABCDEFGHJKLMNPRSTUVWXYZ0-9]{16}");
         return vinNumber;
+    }
+
+    public static String getUniqueNumericCombination(String numberString) {
+        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-GB"), new RandomService());
+        String number = fakeValuesService.numerify(numberString);
+        return number;
     }
 
     public static List<TransportModel> getTransportModelsFromJson() {
