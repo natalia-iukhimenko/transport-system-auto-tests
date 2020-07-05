@@ -5,12 +5,11 @@ import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
-import ru.iukhimenko.transportsystem.autotesting.ui.base.IPage;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class RegistrationPage implements IPage {
+public class RegistrationPage {
     private Logger logger = LoggerFactory.getLogger(RegistrationPage.class);
     private SelenideElement loginField = $(By.id("input-1"));
     private SelenideElement passwordField = $(By.id("input-2"));
