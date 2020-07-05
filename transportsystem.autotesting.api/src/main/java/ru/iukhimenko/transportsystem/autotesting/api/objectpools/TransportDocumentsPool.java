@@ -22,7 +22,7 @@ public class TransportDocumentsPool extends ObjectPool<TransportDocument> {
 
     @Override
     protected TransportDocument create() {
-        // create vehicle
+        Integer vehicleId = new VehiclesPool(1).get().getId();
         TransportDocument documentToCreate = new TransportDocument.TransportDocumentBuilder()
                 .setDocumentType("Auto-generated document")
                 .setSeries(TestDataManager.getUniqueNumericCombination("###"))
@@ -30,7 +30,7 @@ public class TransportDocumentsPool extends ObjectPool<TransportDocument> {
                 .setIssuedDate("2020-02-25")
                 .setIssuedBy(new Faker().company().name())
                 .setExpireDate("2025-02-25")
-                .setTransportId(127)
+                .setTransportId(vehicleId)
                 .build();
         TransportDocumentService service = new TransportDocumentService();
         service.addTransportDocument(documentToCreate);
