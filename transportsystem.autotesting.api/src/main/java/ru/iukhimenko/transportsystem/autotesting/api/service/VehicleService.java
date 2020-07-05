@@ -9,15 +9,23 @@ import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Vehicle;
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
+import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VehicleService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(VehicleService.class);
     private User actor;
 
-    public VehicleService(User actor){
+    public VehicleService() {
+        super();
+        actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+    }
+
+    public VehicleService(User actor) {
         super();
         this.actor = actor;
     }
@@ -50,5 +58,18 @@ public class VehicleService extends ApiService {
                 logger.warn("Failed to map a vehicle");
         }
         return vehicle;
+    }
+
+    public List<Vehicle> getVehicles() {
+        List<Vehicle> vehicles = null;
+        Map<String, String> headers = new HashMap();
+        headers.put("Authorization", new AuthService().getAccessToken(actor));
+        HttpResponse<JsonNode> response = Http.sendGetRequest(TRANSPORTS_ENDPOINT, headers);
+        if (response.isSuccess()) {
+            vehicles = ObjectConverter.convertToObjects(response.getBody().getArray(), Vehicle.class);
+            if (vehicles == null)
+                logger.warn("Failed to map vehicles");
+        }
+        return vehicles;
     }
 }

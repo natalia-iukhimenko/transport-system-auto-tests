@@ -10,6 +10,7 @@ public class AppEndpoints {
     private static String engines_delete_endpoint = "/api/engines/delete/%s";
     private static String engines_engine_endpoint = "/api/engines/%s";
     public static final String TRANSPORTS_ADD_ENDPOINT = "/api/transports/add";
+    public static final String TRANSPORTS_ENDPOINT = "/api/transports";
     private static String transports_transport_endpoint = "/api/transports/%s";
     public static final String TRANSPORT_MODELS_ADD_ENDPOINT = "/api/transportmodels/add";
     private static final String transport_model_endpoint = "/api/transportmodels/%s";
