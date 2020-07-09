@@ -1,5 +1,7 @@
 package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -44,6 +46,7 @@ public class VehicleFleetPageTest extends UiTest {
 
     @ParameterizedTest(name = "Can sort values ascending in column {0}")
     @ValueSource(ints = { NAME_COLUMN, MANUFACTURER_COLUMN, MAX_WEIGHT_COLUMN })
+    @Severity(SeverityLevel.NORMAL)
     public void checkCanSortAscendingTest(Integer columnIndex) {
         table.clickColumnHeader(columnIndex);
         assertThat(table.isColumnSortedAsc(columnIndex))
@@ -53,6 +56,7 @@ public class VehicleFleetPageTest extends UiTest {
 
     @ParameterizedTest(name = "Can sort values ascending in column {0}")
     @ValueSource(ints = { NAME_COLUMN, MANUFACTURER_COLUMN, MAX_WEIGHT_COLUMN })
+    @Severity(SeverityLevel.NORMAL)
     public void checkCanSortDescendingTest(Integer columnIndex) {
         table.clickColumnHeader(columnIndex);
         table.clickColumnHeader(columnIndex);
