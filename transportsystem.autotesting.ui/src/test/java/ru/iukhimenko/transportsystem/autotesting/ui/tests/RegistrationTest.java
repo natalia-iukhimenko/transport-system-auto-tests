@@ -3,6 +3,7 @@ package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,7 @@ public class RegistrationTest extends UiTest {
     @Test
     @UiSmoke
     @Severity(SeverityLevel.BLOCKER)
+    @DisplayName("'Log In' page is opened after successful registration")
     public void redirectToLogInPageAfterSuccessfulRegistration() {
         String username = getValidUsername(), password = getValidPassword();
         LogInPage logInPage = new RegistrationPage().registerAs(username, password);
@@ -43,6 +45,7 @@ public class RegistrationTest extends UiTest {
     @Test
     @UiSmoke
     @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("'Login is busy!' message is shown after registration with not unique login")
     public void alertIsShownWhenRegisterWithNotUniqueUsernameTest() {
         RegistrationPage page = new RegistrationPage();
         page.registerAs(ADMIN_USERNAME, getValidPassword());
@@ -55,6 +58,7 @@ public class RegistrationTest extends UiTest {
     @EmptySource
     @ValueSource(strings = {"_test1", "!test", "te,st", "test?", "тест"})
     @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Login field is highlighted as invalid when filled with unsupported value")
     public void loginFieldHighlightedAsInvalidWhenInputUnsupportedLoginTest(String login) {
         RegistrationPage page = new RegistrationPage();
         page.setLogin(login);
@@ -66,19 +70,21 @@ public class RegistrationTest extends UiTest {
     @ParameterizedTest
     @EmptySource
     @Severity(SeverityLevel.MINOR)
+    @DisplayName("Login field is highlighted as invalid when register with empty value")
     public void loginFieldHighlightedAsInvalidWhenRegisterWithEmptyLoginTest(String login) {
         RegistrationPage page = new RegistrationPage();
         page.setLogin(login)
                 .setPassword(getValidPassword())
                 .clickRegisterButton();
         assertThat(page.isLoginFieldHighlightedAsInvalid())
-                .as("Login field is highlighted as invalid when register wuth empty value")
+                .as("Login field is highlighted as invalid when register with empty value")
                 .isTrue();
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"1", "12345", "abcde"})
     @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Password field is highlighted as invalid when filled with unsupported value")
     public void passwordFieldIsHighlightedAsInvalidWhenInputUnsupportedPasswordTest(String password) {
         RegistrationPage page = new RegistrationPage();
         page.setPassword(password);
@@ -90,13 +96,14 @@ public class RegistrationTest extends UiTest {
     @ParameterizedTest
     @EmptySource
     @Severity(SeverityLevel.MINOR)
+    @DisplayName("Password field is highlighted as invalid when register with empty value")
     public void passwordFieldIsHighlightedAsInvalidWhenRegisterWithEmptyPasswordTest(String password) {
         RegistrationPage page = new RegistrationPage();
         page.setLogin(getValidUsername())
                 .setPassword(password)
                 .clickRegisterButton();
         assertThat(page.isPasswordFieldHighlightedAsInvalid())
-                .as("Password field is highlighted as invalid when register wuth empty value")
+                .as("Password field is highlighted as invalid when register with empty value")
                 .isTrue();
     }
 
