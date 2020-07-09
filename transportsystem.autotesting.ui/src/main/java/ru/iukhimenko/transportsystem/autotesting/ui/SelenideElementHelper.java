@@ -23,4 +23,8 @@ public class SelenideElementHelper {
             element.shouldHave(attribute("aria-expanded", "false"));
         }
     }
+
+    public static boolean isMandatory(SelenideElement element) {
+        return element.has(attribute("aria-required", "true"));
+    }
 }
