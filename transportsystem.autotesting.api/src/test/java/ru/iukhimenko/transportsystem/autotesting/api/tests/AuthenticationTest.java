@@ -4,9 +4,10 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.TestInstance.*;
+
+import org.junit.jupiter.params.provider.EmptySource;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.AuthService;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
@@ -17,24 +18,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("api_auth")
 @ApiRegression
+@TestInstance(Lifecycle.PER_CLASS)
 public class AuthenticationTest extends ApiTest {
+    AuthService authService;
+    User testUser;
+
+    @BeforeAll
+    public void createTestUser() {
+        testUser = new User(TestDataManager.getValidUsername(), TestDataManager.getValidPassword());
+        authService = new AuthService();
+        authService.registerUser(testUser);
+    }
+
     @Test
     @ApiSmoke
     @DisplayName("User can log in with correct credentials")
     @Epic("Authentication")
     @Severity(SeverityLevel.BLOCKER)
     public void canLoginWithCorrectCredentialsTest() {
-        String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
-        AuthService authService = new AuthService();
-        User registeredUser = new User(username, password);
-        authService.registerUser(registeredUser);
-
-        User authenticatedUser = authService.authenticateUser(registeredUser);
+        User authenticatedUser = authService.authenticateUser(testUser);
         assertThat(authenticatedUser)
                 .as("User is successfully authenticated with correct credentials")
                 .isNotNull()
                 .extracting(user -> user.getUsername())
-                .isEqualTo(registeredUser.getUsername());
+                .isEqualTo(testUser.getUsername());
     }
 
     @Test
@@ -42,18 +49,13 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.CRITICAL)
     public void canLogInWithUsernameInAnotherCaseTest() {
-        String sourceUsername = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
-        AuthService authService = new AuthService();
-        User registeredUser = new User(sourceUsername, password);
-        authService.registerUser(registeredUser);
-
-        String usernameInAnotherCase = changeFirstLetterCase(registeredUser.getUsername());
-        User authenticatedUser = authService.authenticateUser(new User(usernameInAnotherCase, registeredUser.getPassword()));
+        String usernameInAnotherCase = changeFirstLetterCase(testUser.getUsername());
+        User authenticatedUser = authService.authenticateUser(new User(usernameInAnotherCase, testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Username is not case-sensitive")
                 .isNotNull()
                 .extracting(user -> user.getUsername())
-                .isEqualTo(registeredUser.getUsername());
+                .isEqualTo(testUser.getUsername());
     }
 
     @Test
@@ -61,13 +63,8 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.CRITICAL)
     public void canNotLogInWithWrongPasswordTest() {
-        String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
-        AuthService authService = new AuthService();
-        User registeredUser = new User(username, password);
-        authService.registerUser(registeredUser);
-
         String wrongPassword = TestDataManager.getValidPassword();
-        User authenticatedUser = authService.authenticateUser(new User(registeredUser.getUsername(), wrongPassword));
+        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername(), wrongPassword));
         assertThat(authenticatedUser)
                 .as("User is not authenticated with wrong password")
                 .isNull();
@@ -77,13 +74,9 @@ public class AuthenticationTest extends ApiTest {
     @DisplayName("User can not log in without password")
     @Epic("Authentication")
     @Severity(SeverityLevel.NORMAL)
-    public void canNotLogInWithoutPasswordTest() {
-        String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
-        AuthService authService = new AuthService();
-        User registeredUser = new User(username, password);
-        authService.registerUser(registeredUser);
-
-        User authenticatedUser = authService.authenticateUser(new User(registeredUser.getUsername(), ""));
+    @EmptySource
+    public void canNotLogInWithoutPasswordTest(String password) {
+        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername(), password));
         assertThat(authenticatedUser)
                 .as("User is not authenticated without password")
                 .isNull();
@@ -94,17 +87,13 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingLeadingSpaces() {
-        String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
-        AuthService authService = new AuthService();
-        User registeredUser = new User(username, password);
-        authService.registerUser(registeredUser);
-
-        User authenticatedUser = authService.authenticateUser(new User("   " + registeredUser.getUsername(), registeredUser.getPassword()));
+        StringBuilder usernameWithLeadingSpaces = new StringBuilder("   ").append(testUser.getUsername());
+        User authenticatedUser = authService.authenticateUser(new User(usernameWithLeadingSpaces.toString(), testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Leading spaces in username are ignored on authentication")
                 .isNotNull()
                 .extracting(user -> user.getUsername())
-                .isEqualTo(registeredUser.getUsername());
+                .isEqualTo(testUser.getUsername());
     }
 
     @Test
@@ -112,17 +101,13 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingTrailingSpaces() {
-        String username = TestDataManager.getValidUsername(), password = TestDataManager.getValidPassword();
-        AuthService authService = new AuthService();
-        User registeredUser = new User(username, password);
-        authService.registerUser(registeredUser);
-
-        User authenticatedUser = authService.authenticateUser(new User(registeredUser.getUsername() + "   ", registeredUser.getPassword()));
+        StringBuilder usernameWithTrailingSpaces = new StringBuilder(testUser.getUsername()).append("   ");
+        User authenticatedUser = authService.authenticateUser(new User(usernameWithTrailingSpaces.toString(), testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Trailing spaces in username are ignored on authentication")
                 .isNotNull()
                 .extracting(user -> user.getUsername())
-                .isEqualTo(registeredUser.getUsername());
+                .isEqualTo(testUser.getUsername());
     }
 
     private String changeFirstLetterCase(String sourceString) {
