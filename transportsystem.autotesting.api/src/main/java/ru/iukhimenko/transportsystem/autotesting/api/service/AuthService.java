@@ -2,17 +2,13 @@ package ru.iukhimenko.transportsystem.autotesting.api.service;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
-
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +16,9 @@ import java.util.Map;
 public class AuthService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
-    public void registerUser(User user) {
-        if (user != null) {
-            HttpResponse<JsonNode> response = Http.sendPostRequest(REGISTER_ENDPOINT, user);
-        } else
-            logger.info("Registration of null user cannot be performed");
+    public boolean registerUser(User user) {
+        HttpResponse<JsonNode> response = Http.sendPostRequest(REGISTER_ENDPOINT, user);
+        return response.isSuccess();
     }
 
     public User authenticateUser(User user) {
