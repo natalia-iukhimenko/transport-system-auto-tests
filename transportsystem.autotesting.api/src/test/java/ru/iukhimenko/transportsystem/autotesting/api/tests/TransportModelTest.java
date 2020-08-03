@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
@@ -21,6 +20,8 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 @Tag("api_transport_model")
 @ApiRegression
 public class TransportModelTest extends ApiTest {
+    private TransportModelService modelService = new TransportModelService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+
     @Test
     @ApiSmoke
     @DisplayName("A transport model can be created")
@@ -28,7 +29,6 @@ public class TransportModelTest extends ApiTest {
     @Feature("Add transport model")
     @Severity(SeverityLevel.BLOCKER)
     public void addTransportModelTest() {
-        TransportModelService modelService = new TransportModelService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
         TransportModel modelToAdd = new TransportModel.TransportModelBuilder()
                 .setName("Fluence")
                 .setProducer("Renault")
@@ -39,6 +39,7 @@ public class TransportModelTest extends ApiTest {
                 .build();
         Integer createdModelId = modelService.addTransportModel(modelToAdd);
         assertThat(createdModelId).as("Created transport model has its own id").isNotNull();
+
         TransportModel createdModel = modelService.getTransportModel(createdModelId);
         assertThat(createdModel)
                 .as("Created transport model stores all specified values")
