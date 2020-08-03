@@ -1,7 +1,8 @@
 package ru.iukhimenko.transportsystem.autotesting.core.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,7 +20,7 @@ public class Engine {
         this.fuel = fuel;
     }
 
-    @JsonIgnore
+    @JsonInclude(NON_NULL)
     public Integer getId() {
         return id;
     }

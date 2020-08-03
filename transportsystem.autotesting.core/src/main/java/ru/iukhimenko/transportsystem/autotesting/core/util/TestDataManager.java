@@ -7,6 +7,7 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public class TestDataManager {
     public static String getValidPassword() {
@@ -41,5 +42,9 @@ public class TestDataManager {
     public static List<TransportModel> getTransportModelsFromJson() {
         File file = new File("src/test/resources/test_data/transport_models.json");
         return FileUtils.readJsonObjectsFromFile(file.getAbsolutePath(), TransportModel.class);
+    }
+
+    public static Stream<String> engineFuelTypeProvider() {
+        return Stream.of( "PETROL", "DIESEL", "GAS", "ELECTRIC", "HYBRID");
     }
 }

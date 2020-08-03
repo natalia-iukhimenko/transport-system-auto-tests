@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.EngineService;
@@ -15,8 +16,10 @@ import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
+import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
@@ -25,40 +28,24 @@ import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERN
 @Tag("api_engines")
 @ApiRegression
 public class EngineTest extends ApiTest {
-    final String PETROL = "PETROL", DIESEL = "DIESEL", GAS = "GAS", ELECTRIC = "ELECTRIC", HYBRID = "HYBRID";
+    private User asAdmin = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+    private EngineService engineService = new EngineService(asAdmin);
 
-    @Test
     @ApiSmoke
-    @DisplayName("An engine with all specified values can be created")
     @Epic("Engines")
     @Feature("Add Engine")
     @Severity(SeverityLevel.BLOCKER)
-    public void canCreateWithAllValuesPopulated() {
-        Engine expectedEngine = new Engine("Test Engine", 1700, PETROL);
-        EngineService engineService = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+    @ParameterizedTest(name = "An engine with supported fuel types can be created")
+    @MethodSource("ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager#engineFuelTypeProvider")
+    public void canCreateWithAllValuesPopulated(String fuelType) {
+        Engine expectedEngine = new Engine(fuelType + " engine", 1700, fuelType);
         Integer engineId = engineService.addEngine(expectedEngine);
         assertThat(engineId).as("Created engine has own id").isNotNull();
-        expectedEngine.setId(engineId);
+
         Engine actualEngine = engineService.getEngine(engineId);
         assertThat(actualEngine)
                 .as("Created engine stores all specified values")
-                .isEqualToComparingFieldByField(expectedEngine);
-    }
-
-    @ParameterizedTest(name = "An engine with fuel type = {0} can be created")
-    @ValueSource(strings = { PETROL, DIESEL, GAS, ELECTRIC, HYBRID })
-    @Epic("Engines")
-    @Feature("Add Engine")
-    @Severity(SeverityLevel.CRITICAL)
-    public void fuelTypeTest(String fuelType) {
-        Engine testEngine = new Engine(fuelType + " engine", 1700, fuelType);
-        EngineService engineService = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
-        Integer engineId = engineService.addEngine(testEngine);
-        assertThat(engineId).as("Created engine has own id").isNotNull();
-        Engine createdEngine = engineService.getEngine(engineId);
-        assertThat(createdEngine.getFuel())
-                .as("Created engine stores specified fuel")
-                .isEqualTo(fuelType);
+                .isEqualToIgnoringGivenFields(expectedEngine, "id");
     }
 
     @ParameterizedTest(name = "An engine with volume = {0} can be created")
@@ -66,15 +53,25 @@ public class EngineTest extends ApiTest {
     @Epic("Engines")
     @Feature("Add Engine")
     @Severity(SeverityLevel.CRITICAL)
-    public void volumeTest(Integer volume) {
-        Engine testEngine = new Engine("Test Volume", volume, PETROL);
-        EngineService engineService = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+    public void volumeValueTest(Integer volume) {
+        Engine testEngine = new Engine("Test Volume", volume, getTestFuel());
         Integer engineId = engineService.addEngine(testEngine);
         assertThat(engineId).as("Created engine has own id").isNotNull();
+
         Engine createdEngine = engineService.getEngine(engineId);
         assertThat(createdEngine.getVolume())
                 .as("Created engine stores specified volume")
                 .isEqualTo(volume);
+    }
+
+    @Test
+    @Epic("Engines")
+    @Feature("Add Engine")
+    @Severity(SeverityLevel.NORMAL)
+    public void unableToCreateEngineWithUnsupportedFuelType() {
+        Engine testEngine = new Engine("Test Wrong Fuel", 1500, "TEST_TYPE");
+        Integer engineId = engineService.addEngine(testEngine);
+        assertThat(engineId).as("An engine with unsupported fuel type is not created").isNull();
     }
 
     @Test
@@ -84,11 +81,11 @@ public class EngineTest extends ApiTest {
     @Feature("Edit Engine")
     @Severity(SeverityLevel.BLOCKER)
     public void canUpdateEngineTest() {
-        Engine sourceEngine = new Engine("Initial Engine", 1000, HYBRID);
-        EngineService engineService = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+        Engine sourceEngine = new Engine("Initial Engine", 1000, getTestFuel());
         Integer engineId = engineService.addEngine(sourceEngine);
-        Engine expectedUpdatedEngine = new Engine("Updated Engine", 2500, ELECTRIC);
+        Engine expectedUpdatedEngine = new Engine("Updated Engine", 2500, getTestFuel());
         expectedUpdatedEngine.setId(engineId);
+
         engineService.updateEngine(expectedUpdatedEngine);
         Engine actualUpdatedEngine = engineService.getEngine(engineId);
         assertThat(actualUpdatedEngine)
@@ -103,14 +100,18 @@ public class EngineTest extends ApiTest {
     @Feature("Delete Engine")
     @Severity(SeverityLevel.BLOCKER)
     public void canDeleteUnusedEngineTest() {
-        EngineService engineService = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
-        Integer engineId = engineService.addEngine(new Engine("To be removed", 1000, ELECTRIC));
+        Integer engineId = engineService.addEngine(new Engine("To be removed", 1000, getTestFuel()));
         List<Engine> systemEngines = engineService.getAllEngines();
         assertThat(systemEngines).extracting("id").as("Created engine id exists in the list of engines").contains(engineId);
+
         engineService.deleteEngine(engineId);
         assertThat(engineService.getAllEngines())
                 .extracting("id")
                 .as("Deleted engine doesn't exist in the list of engines")
                 .doesNotContain(engineId);
+    }
+
+    private String getTestFuel() {
+        return TestDataManager.engineFuelTypeProvider().findAny().get();
     }
 }
