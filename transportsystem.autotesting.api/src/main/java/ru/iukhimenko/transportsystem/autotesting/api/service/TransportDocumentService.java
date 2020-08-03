@@ -21,12 +21,10 @@ public class TransportDocumentService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(TransportDocumentService.class);
 
     public TransportDocumentService() {
-        super();
         actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 
     public TransportDocumentService(User actor) {
-        super();
         this.actor = actor;
     }
 

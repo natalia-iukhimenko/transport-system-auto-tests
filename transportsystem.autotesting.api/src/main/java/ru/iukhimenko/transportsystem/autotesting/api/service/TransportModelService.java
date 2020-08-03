@@ -20,7 +20,6 @@ public class TransportModelService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(TransportModelService.class);
 
     public TransportModelService(User actor) {
-        super();
         this.actor = actor;
     }
 

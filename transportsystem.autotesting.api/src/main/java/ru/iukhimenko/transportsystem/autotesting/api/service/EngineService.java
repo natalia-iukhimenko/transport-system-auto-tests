@@ -20,7 +20,6 @@ public class EngineService extends ApiService {
     private User actor;
 
     public EngineService(User actor) {
-        super();
         this.actor = actor;
     }
 

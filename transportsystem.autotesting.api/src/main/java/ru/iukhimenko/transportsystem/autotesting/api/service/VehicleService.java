@@ -21,12 +21,10 @@ public class VehicleService extends ApiService {
     private User actor;
 
     public VehicleService() {
-        super();
         actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 
     public VehicleService(User actor) {
-        super();
         this.actor = actor;
     }
 

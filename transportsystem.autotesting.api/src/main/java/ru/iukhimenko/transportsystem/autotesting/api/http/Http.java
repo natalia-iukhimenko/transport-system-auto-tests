@@ -11,7 +11,7 @@ import static ru.iukhimenko.transportsystem.autotesting.core.Configs.BASE_URI;
 import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.*;
 
 public class Http {
-    static Logger logger = LoggerFactory.getLogger(Http.class);
+    private static Logger logger = LoggerFactory.getLogger(Http.class);
 
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers, Map<String, Object> requestParams) {
         return Unirest
