@@ -15,7 +15,7 @@ public class Http {
 
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers, Map<String, Object> requestParams) {
         return Unirest
-                .get(BASE_URI + endpoint)
+                .get(endpoint)
                 .headers(headers)
                 .queryString(requestParams)
                 .asJson()
@@ -25,7 +25,7 @@ public class Http {
 
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers) {
         return Unirest
-                .get(BASE_URI + endpoint)
+                .get(endpoint)
                 .headers(headers)
                 .asJson()
                 .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
@@ -34,7 +34,7 @@ public class Http {
 
     public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Map<String, String> headers, Object body) {
         return Unirest
-                .post(BASE_URI + endpoint)
+                .post(endpoint)
                 .headers(headers)
                 .body(body)
                 .asJson()
@@ -44,7 +44,7 @@ public class Http {
 
     public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Object body) {
         return Unirest
-                .post(BASE_URI + endpoint)
+                .post(endpoint)
                 .body(body)
                 .asJson()
                 .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
@@ -53,7 +53,7 @@ public class Http {
 
     public static HttpResponse<JsonNode> sendPutRequest(String endpoint, Map<String, String> headers, Object body) {
         return Unirest
-                .put(BASE_URI + endpoint)
+                .put(endpoint)
                 .headers(headers)
                 .body(body)
                 .asJson()
@@ -63,7 +63,7 @@ public class Http {
 
     public static HttpResponse<JsonNode> sendDeleteRequest(String endpoint, Map<String, String> headers) {
         return Unirest
-                .delete(BASE_URI + endpoint)
+                .delete(endpoint)
                 .headers(headers)
                 .asJson()
                 .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
