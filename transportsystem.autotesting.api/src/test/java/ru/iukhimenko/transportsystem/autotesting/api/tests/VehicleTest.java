@@ -1,51 +1,30 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
-import ru.iukhimenko.transportsystem.autotesting.api.service.EngineService;
-import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
-import ru.iukhimenko.transportsystem.autotesting.api.service.VehicleService;
+import ru.iukhimenko.transportsystem.autotesting.api.objectpools.VehiclesPool;
+import ru.iukhimenko.transportsystem.autotesting.api.service.*;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
-import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
-import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
-import ru.iukhimenko.transportsystem.autotesting.core.model.User;
-import ru.iukhimenko.transportsystem.autotesting.core.model.Vehicle;
+import ru.iukhimenko.transportsystem.autotesting.core.model.*;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
 
 @Tag("api_vehicle")
 @ApiRegression
 public class VehicleTest extends ApiTest {
-    public Integer testEngineId;
-    public Integer testTransportModelId;
+    private VehicleService vehicleService = new VehicleService();;
+    private Integer testEngineId;
+    private Integer testTransportModelId;
+    private final int poolSize = 1;
+    private VehiclesPool vehiclesPool = new VehiclesPool(poolSize);
+
 
     @BeforeEach
     public void createEngineAndTransportModel() {
-        EngineService testEngine = new EngineService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
-        testEngineId = testEngine.addEngine(new Engine("Auto Engine", 1500, "GAS"));
-        assertThat(testEngineId).isNotNull();
-        TransportModel testModel = new TransportModel.TransportModelBuilder()
-                .setName("CX-5")
-                .setProducer("Mazda")
-                .setWidth(1840)
-                .setHeight(1675)
-                .setLength(4550)
-                .setMaxWeight(1617)
-                .build();
-        testTransportModelId = new TransportModelService(new User(ADMIN_USERNAME, ADMIN_PASSWORD)).addTransportModel(testModel);
-        assertThat(testTransportModelId).isNotNull();
+        testEngineId = createTestEngine();
+        testTransportModelId = createTestTransportModel();
     }
 
     @Test
@@ -55,19 +34,10 @@ public class VehicleTest extends ApiTest {
     @Feature("Add Transport")
     @Severity(SeverityLevel.BLOCKER)
     public void canCreateVehicleWithMandatoryValuesTest() {
-        Vehicle testVehicle = new Vehicle.VehicleBuilder()
-                .setNumber(TestDataManager.getUniqueCarNumber())
-                .setVin(TestDataManager.getUniqueVinNumber())
-                .setProducedYear(2012)
-                .setColor("Чёрный")
-                .setEnginePower(1500)
-                .setStartupDate("2014-10-12")
-                .setEngineId(testEngineId)
-                .setTransportModelId(testTransportModelId)
-                .build();
-        VehicleService vehicleService = new VehicleService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+        Vehicle testVehicle = withMandatoryValues();
         Integer vehicleId = vehicleService.addVehicle(testVehicle);
         assertThat(vehicleId).as("Created vehicle has own id").isNotNull();
+
         Vehicle createdVehicle = vehicleService.getVehicle(vehicleId);
         assertThat(createdVehicle)
                 .as("Created vehicle stores all specified values")
@@ -80,22 +50,11 @@ public class VehicleTest extends ApiTest {
     @Feature("Add Transport")
     @Severity(SeverityLevel.CRITICAL)
     public void canCreateVehicleWithAllValuesTest() {
-        Vehicle testVehicle = new Vehicle.VehicleBuilder()
-                .setNumber(TestDataManager.getUniqueCarNumber())
-                .setVin(TestDataManager.getUniqueVinNumber())
-                .setProducedYear(2015)
-                .setColor("Чёрный")
-                .setEnginePower(1700)
-                .setStartupDate("2017-03-22")
-                .setWriteOffDate("2019-07-14")
-                .setEngineId(testEngineId)
-                .setTransportModelId(testTransportModelId)
-                .build();
-        VehicleService vehicleService = new VehicleService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+        Vehicle testVehicle = withAllValues();
         Integer vehicleId = vehicleService.addVehicle(testVehicle);
         assertThat(vehicleId).as("Created vehicle has own id").isNotNull();
-        Vehicle createdVehicle = vehicleService.getVehicle(vehicleId);
-        assertThat(createdVehicle)
+        Vehicle newVehicle = vehicleService.getVehicle(vehicleId);
+        assertThat(newVehicle)
                 .as("Created vehicle stores all specified values")
                 .isEqualToIgnoringGivenFields(testVehicle, "id");
     }
@@ -106,21 +65,10 @@ public class VehicleTest extends ApiTest {
     @Feature("Add Transport")
     @Severity(SeverityLevel.CRITICAL)
     public void canNotCreateVehicleWithNotUniqueVinTest() {
-        Vehicle.VehicleBuilder vehicleBuilder = new Vehicle.VehicleBuilder()
-                .setNumber(TestDataManager.getUniqueCarNumber())
-                .setVin(TestDataManager.getUniqueVinNumber())
-                .setProducedYear(2012)
-                .setColor("Чёрный")
-                .setEnginePower(1500)
-                .setStartupDate("2014-10-12")
-                .setEngineId(testEngineId)
-                .setTransportModelId(testTransportModelId);
-        VehicleService vehicleService = new VehicleService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
-        Integer vehicleId = vehicleService.addVehicle(vehicleBuilder.build());
-        assertThat(vehicleId).as("Created vehicle has own id").isNotNull();
-        Vehicle withNotUniqueVin = vehicleBuilder.setNumber(TestDataManager.getUniqueCarNumber()).build();
-        Integer newVehicleId = vehicleService.addVehicle(withNotUniqueVin);
-        assertThat(newVehicleId).as("A vehicle with not unique VIN is not created").isNull();
+        Vehicle existingVehicle = vehiclesPool.get();
+        Vehicle newVehicle = withVin(existingVehicle.getVin());
+        Integer newVehicleId = vehicleService.addVehicle(newVehicle);
+        assertThat(newVehicleId).as("A vehicle with not unique VIN is not created, id should be null").isNull();
     }
 
     @Test
@@ -129,20 +77,46 @@ public class VehicleTest extends ApiTest {
     @Feature("Add Transport")
     @Severity(SeverityLevel.CRITICAL)
     public void canNotCreateVehicleWithNotUniqueNumberTest() {
-        Vehicle.VehicleBuilder vehicleBuilder = new Vehicle.VehicleBuilder()
-                .setNumber(TestDataManager.getUniqueCarNumber())
-                .setVin(TestDataManager.getUniqueVinNumber())
-                .setProducedYear(2012)
-                .setColor("Чёрный")
-                .setEnginePower(1500)
-                .setStartupDate("2014-10-12")
-                .setEngineId(testEngineId)
-                .setTransportModelId(testTransportModelId);
-        VehicleService vehicleService = new VehicleService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
-        Integer vehicleId = vehicleService.addVehicle(vehicleBuilder.build());
-        assertThat(vehicleId).as("Created vehicle has own id").isNotNull();
-        Vehicle withNotUniqueNumber = vehicleBuilder.setVin(TestDataManager.getUniqueVinNumber()).build();
+        Vehicle existingVehicle = vehiclesPool.get();
+        Vehicle withNotUniqueNumber = withNumber(existingVehicle.getNumber());
         Integer newVehicleId = vehicleService.addVehicle(withNotUniqueNumber);
-        assertThat(newVehicleId).as("A vehicle with not unique number is not created").isNull();
+        assertThat(newVehicleId).as("A vehicle with not unique number is not created, id should be null").isNull();
+    }
+
+    private Vehicle withMandatoryValues() {
+        return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId).build();
+    }
+
+    private Vehicle withAllValues() {
+        return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId)
+                .setWriteOffDate("2020-01-12")
+                .build();
+    }
+
+    private Vehicle withNumber(String number) {
+        return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId)
+                .setNumber(number)
+                .build();
+    }
+
+    private Vehicle withVin(String vin) {
+        return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId)
+                .setVin(vin)
+                .build();
+    }
+
+    private int createTestEngine() {
+        EngineService engineService = new EngineService();
+        int id = engineService.addEngine(TestDataManager.getTestEngine());
+        assertThat(id).isNotNull();
+        return id;
+    }
+
+    private int createTestTransportModel() {
+        TransportModelService modelService = new TransportModelService();
+        TransportModel testModel = TestDataManager.getTestTransportModel();
+        int id = modelService.addTransportModel(testModel);
+        assertThat(id).isNotNull();
+        return id;
     }
 }
