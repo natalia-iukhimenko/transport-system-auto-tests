@@ -61,8 +61,8 @@ public class TestDataManager {
 
     public static Vehicle.VehicleBuilder getVehicleBuilderWithMandatoryValues(int engineId, int transportModelId) {
         return new Vehicle.VehicleBuilder()
-                .setNumber(TestDataManager.getUniqueCarNumber())
-                .setVin(TestDataManager.getUniqueVinNumber())
+                .setNumber(getUniqueCarNumber())
+                .setVin(getUniqueVinNumber())
                 .setProducedYear(2012)
                 .setColor("black")
                 .setEnginePower(1500)
@@ -79,5 +79,9 @@ public class TestDataManager {
                 .setHeight(1675)
                 .setLength(4550)
                 .setMaxWeight(1617);
+    }
+
+    public static TransportModel getTestTransportModel() {
+        return getTestTransportModelBuilder().build();
     }
 }
