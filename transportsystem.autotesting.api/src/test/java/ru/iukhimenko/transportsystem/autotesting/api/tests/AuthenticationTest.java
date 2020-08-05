@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.TestInstance.*;
 
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.service.AuthService;
@@ -70,8 +71,7 @@ public class AuthenticationTest extends ApiTest {
                 .isNull();
     }
 
-    @Test
-    @DisplayName("User can not log in without password")
+    @ParameterizedTest(name = "User can not log in without password")
     @Epic("Authentication")
     @Severity(SeverityLevel.NORMAL)
     @EmptySource
