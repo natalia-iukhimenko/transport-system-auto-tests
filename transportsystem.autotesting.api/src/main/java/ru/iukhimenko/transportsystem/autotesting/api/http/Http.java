@@ -6,8 +6,6 @@ import kong.unirest.Unirest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Map;
-
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.BASE_URI;
 import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.*;
 
 public class Http {
