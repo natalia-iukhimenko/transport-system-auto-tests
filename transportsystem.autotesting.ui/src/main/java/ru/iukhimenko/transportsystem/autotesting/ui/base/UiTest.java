@@ -11,7 +11,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 public class UiTest {
     @BeforeAll
     public static void setUp() {
-        BASE_URI = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "baseURI");
+        BASE_URI = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "baseURL");
         ADMIN_USERNAME = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "adminUsername");
         ADMIN_PASSWORD = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "adminPassword");
         Configuration.browser = FileUtils.getValueFromProperties(CONFIG_FILE_PATH, "browser");
