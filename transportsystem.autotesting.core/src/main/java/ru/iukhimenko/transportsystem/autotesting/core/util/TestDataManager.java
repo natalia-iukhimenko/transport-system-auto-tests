@@ -72,13 +72,13 @@ public class TestDataManager {
     }
 
     public static TransportModel.TransportModelBuilder getTestTransportModelBuilder() {
-        return new TransportModel.TransportModelBuilder()
-                .setName("CX-5")
-                .setProducer("Mazda")
-                .setWidth(1840)
-                .setHeight(1675)
-                .setLength(4550)
-                .setMaxWeight(1617);
+        return TransportModel.builder()
+                .name("CX-5")
+                .producer("Mazda")
+                .width(1840)
+                .height(1675)
+                .length(4550)
+                .maxWeight(1617);
     }
 
     public static TransportModel getTestTransportModel() {

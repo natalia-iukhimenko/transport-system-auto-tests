@@ -1,12 +1,7 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
@@ -29,13 +24,13 @@ public class TransportModelTest extends ApiTest {
     @Feature("Add transport model")
     @Severity(SeverityLevel.BLOCKER)
     public void addTransportModelTest() {
-        TransportModel modelToAdd = new TransportModel.TransportModelBuilder()
-                .setName("Fluence")
-                .setProducer("Renault")
-                .setMaxWeight(1323)
-                .setWidth(1809)
-                .setHeight(1479)
-                .setLength(4620)
+        TransportModel modelToAdd = TransportModel.builder()
+                .name("Fluence")
+                .producer("Renault")
+                .maxWeight(1323)
+                .width(1809)
+                .height(1479)
+                .length(4620)
                 .build();
         Integer createdModelId = modelService.addTransportModel(modelToAdd);
         assertThat(createdModelId).as("Created transport model has its own id").isNotNull();
