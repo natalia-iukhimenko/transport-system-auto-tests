@@ -20,7 +20,6 @@ public class VehicleTest extends ApiTest {
     private final int poolSize = 1;
     private VehiclesPool vehiclesPool = new VehiclesPool(poolSize);
 
-
     @BeforeEach
     public void createEngineAndTransportModel() {
         testEngineId = createTestEngine();
@@ -89,19 +88,19 @@ public class VehicleTest extends ApiTest {
 
     private Vehicle withAllValues() {
         return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId)
-                .setWriteOffDate("2020-01-12")
+                .writeOffDate("2020-01-12")
                 .build();
     }
 
     private Vehicle withNumber(String number) {
         return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId)
-                .setNumber(number)
+                .number(number)
                 .build();
     }
 
     private Vehicle withVin(String vin) {
         return TestDataManager.getVehicleBuilderWithMandatoryValues(testEngineId, testTransportModelId)
-                .setVin(vin)
+                .vin(vin)
                 .build();
     }
 

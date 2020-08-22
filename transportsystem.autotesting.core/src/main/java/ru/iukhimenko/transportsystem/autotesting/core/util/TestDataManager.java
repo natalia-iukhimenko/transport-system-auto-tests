@@ -6,7 +6,6 @@ import com.github.javafaker.service.RandomService;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Vehicle;
-
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
@@ -60,15 +59,15 @@ public class TestDataManager {
     }
 
     public static Vehicle.VehicleBuilder getVehicleBuilderWithMandatoryValues(int engineId, int transportModelId) {
-        return new Vehicle.VehicleBuilder()
-                .setNumber(getUniqueCarNumber())
-                .setVin(getUniqueVinNumber())
-                .setProducedYear(2012)
-                .setColor("black")
-                .setEnginePower(1500)
-                .setStartupDate("2014-10-12")
-                .setEngineId(engineId)
-                .setTransportModelId(transportModelId);
+        return Vehicle.builder()
+                .number(getUniqueCarNumber())
+                .vin(getUniqueVinNumber())
+                .producedYear(2012)
+                .color("black")
+                .enginePower(1500)
+                .startupDate("2014-10-12")
+                .engineId(engineId)
+                .transportModelId(transportModelId);
     }
 
     public static TransportModel.TransportModelBuilder getTestTransportModelBuilder() {

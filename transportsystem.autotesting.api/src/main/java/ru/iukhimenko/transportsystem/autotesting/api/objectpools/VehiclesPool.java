@@ -28,15 +28,15 @@ public class VehiclesPool extends ObjectPool<Vehicle> {
         TransportModelService modelService = new TransportModelService();
         int transportModelId = modelService.addTransportModel(TestDataManager.getTestTransportModel());
 
-        Vehicle vehicleToCreate = new Vehicle.VehicleBuilder()
-                .setNumber(TestDataManager.getUniqueCarNumber())
-                .setTransportModelId(transportModelId)
-                .setColor("auto-blue")
-                .setEngineId(engineId)
-                .setEnginePower(1200)
-                .setProducedYear(2015)
-                .setStartupDate("2017-12-06")
-                .setVin(TestDataManager.getUniqueVinNumber())
+        Vehicle vehicleToCreate = Vehicle.builder()
+                .number(TestDataManager.getUniqueCarNumber())
+                .transportModelId(transportModelId)
+                .color("auto-blue")
+                .engineId(engineId)
+                .enginePower(1200)
+                .producedYear(2015)
+                .startupDate("2017-12-06")
+                .vin(TestDataManager.getUniqueVinNumber())
                 .build();
         new VehicleService().addVehicle(vehicleToCreate);
         return vehicleToCreate;
