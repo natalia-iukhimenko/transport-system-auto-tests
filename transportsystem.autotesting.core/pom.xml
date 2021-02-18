@@ -42,7 +42,7 @@
     </dependencies>
 
     <properties>
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <lombok.version>1.18.12</lombok.version>
     </properties>
 </project>
