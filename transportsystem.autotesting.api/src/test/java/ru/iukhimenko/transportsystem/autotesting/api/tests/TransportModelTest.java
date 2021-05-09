@@ -1,21 +1,26 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
-import io.qameta.allure.*;
-import org.junit.jupiter.api.*;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
-import static org.assertj.core.api.Assertions.assertThat;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
 import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
+
 @Tag("api_transport_model")
 @ApiRegression
 public class TransportModelTest extends ApiTest {
-    private TransportModelService modelService = new TransportModelService(new User(ADMIN_USERNAME, ADMIN_PASSWORD));
+    private TransportModelService modelService = new TransportModelService(new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword()));
 
     @Test
     @ApiSmoke

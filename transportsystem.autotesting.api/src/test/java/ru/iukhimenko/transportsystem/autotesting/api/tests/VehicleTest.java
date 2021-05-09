@@ -1,20 +1,30 @@
 package ru.iukhimenko.transportsystem.autotesting.api.tests;
 
-import io.qameta.allure.*;
-import org.junit.jupiter.api.*;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
 import ru.iukhimenko.transportsystem.autotesting.api.objectpools.VehiclesPool;
-import ru.iukhimenko.transportsystem.autotesting.api.service.*;
+import ru.iukhimenko.transportsystem.autotesting.api.service.EngineService;
+import ru.iukhimenko.transportsystem.autotesting.api.service.TransportModelService;
+import ru.iukhimenko.transportsystem.autotesting.api.service.VehicleService;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
-import ru.iukhimenko.transportsystem.autotesting.core.model.*;
+import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
+import ru.iukhimenko.transportsystem.autotesting.core.model.Vehicle;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("api_vehicle")
 @ApiRegression
 public class VehicleTest extends ApiTest {
-    private VehicleService vehicleService = new VehicleService();;
+    private VehicleService vehicleService = new VehicleService();
     private Integer testEngineId;
     private Integer testTransportModelId;
     private final int poolSize = 1;

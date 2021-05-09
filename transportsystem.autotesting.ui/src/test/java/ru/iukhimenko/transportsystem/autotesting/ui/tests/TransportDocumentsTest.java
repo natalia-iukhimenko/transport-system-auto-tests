@@ -7,8 +7,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import ru.iukhimenko.transportsystem.autotesting.api.objectpools.TransportDocumentsPool;
-import ru.iukhimenko.transportsystem.autotesting.api.service.TransportDocumentService;
-import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
 import ru.iukhimenko.transportsystem.autotesting.ui.base.UiTest;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.AddTransportDocumentForm;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.TransportDocumentsTable;
@@ -18,7 +16,7 @@ import ru.iukhimenko.transportsystem.autotesting.ui.pages.TransportDocumentsPage
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 @Tag("ui_transport_documents")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -30,7 +28,7 @@ public class TransportDocumentsTest extends UiTest {
     @BeforeAll
     public void createTestDataAndLogIn() {
         pool = new TransportDocumentsPool(4);
-        open(BASE_URI, LogInPage.class).logInWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+        open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class).logInWith(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
     @BeforeEach

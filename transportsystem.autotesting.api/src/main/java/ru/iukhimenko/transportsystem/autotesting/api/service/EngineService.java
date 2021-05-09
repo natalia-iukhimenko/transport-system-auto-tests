@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
+
 
 public class EngineService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
@@ -26,7 +26,7 @@ public class EngineService extends ApiService {
     }
 
     public EngineService() {
-        this.actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+        this.actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
     public Integer addEngine(Engine engine) {

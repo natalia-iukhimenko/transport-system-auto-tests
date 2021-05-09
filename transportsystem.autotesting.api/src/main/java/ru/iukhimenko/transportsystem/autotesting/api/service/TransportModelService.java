@@ -5,10 +5,6 @@ import kong.unirest.JsonNode;
 import kong.unirest.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_MODELS_ADD_ENDPOINT;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
-
 import ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints;
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
@@ -17,6 +13,9 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_MODELS_ADD_ENDPOINT;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class TransportModelService extends ApiService {
     private User actor;
@@ -27,7 +26,7 @@ public class TransportModelService extends ApiService {
     }
 
     public TransportModelService() {
-        this.actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+        this.actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
     public Integer addTransportModel(TransportModel transportModel) {

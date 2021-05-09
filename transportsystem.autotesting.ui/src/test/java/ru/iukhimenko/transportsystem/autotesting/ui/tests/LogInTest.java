@@ -15,9 +15,10 @@ import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiRegression;
 import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiSmoke;
 
 import java.util.stream.Stream;
+
 import static com.codeborne.selenide.Selenide.open;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 @Tag("ui_auth")
 @UiRegression
@@ -27,8 +28,8 @@ public class LogInTest extends UiTest {
     @Severity(SeverityLevel.BLOCKER)
     @DisplayName("Username is displayed after successful authentication")
     public void usernameIsDisplayedAfterSuccessfulAuthenticationTest() {
-        String username = ADMIN_USERNAME, password = ADMIN_PASSWORD;
-        HomePage homePage = open(BASE_URI, LogInPage.class).logInWith(username, password);
+        String username = TRANSPORT_SYSTEM_CONFIG.adminUsername(), password = TRANSPORT_SYSTEM_CONFIG.adminPassword();
+        HomePage homePage = open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class).logInWith(username, password);
         String displayedUsername = homePage.getPageHeader().getDisplayedUsername();
         assertThat(displayedUsername).isEqualTo(username);
     }
@@ -38,7 +39,7 @@ public class LogInTest extends UiTest {
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Alert is shown if a user logs in with wrong credentials")
     public void alertIsShownWhenLogInWithWrongUsernameOrPasswordTest(String username, String password) {
-        LogInPage page = open(BASE_URI, LogInPage.class);
+        LogInPage page = open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class);
         page.logInWith(username, password);
         assertThat(page.showsWrongLoginOrPasswordMessage())
                 .as("Alert is shown if a user logs in with wrong username or password")
@@ -49,8 +50,8 @@ public class LogInTest extends UiTest {
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Login field is highlighted as invalid if a user logs in without login")
     public void loginIsHighlightedAsInvalidWhenSubmitWithEmptyLoginTest() {
-        LogInPage page = open(BASE_URI, LogInPage.class);
-        page.setPassword(ADMIN_PASSWORD)
+        LogInPage page = open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class);
+        page.setPassword(TRANSPORT_SYSTEM_CONFIG.adminPassword())
                 .clickLogInButton();
         assertThat(page.isLoginFieldHighlightedAsInvalid())
                 .as("Login field is highlighted as invalid if a user logs in without login")
@@ -61,8 +62,8 @@ public class LogInTest extends UiTest {
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Password field is highlighted as invalid if a user logs in without password")
     public void passwordIsHighlightedAsInvalidWhenSubmitWithEmptyPasswordTest() {
-        LogInPage page = open(BASE_URI, LogInPage.class);
-        page.setLogin(ADMIN_USERNAME)
+        LogInPage page = open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class);
+        page.setLogin(TRANSPORT_SYSTEM_CONFIG.adminUsername())
                 .clickLogInButton();
         assertThat(page.isPasswordFieldHighlightedAsInvalid())
                 .as("Password field is highlighted as invalid if a user logs in without password")
@@ -71,8 +72,8 @@ public class LogInTest extends UiTest {
 
     private static Stream<Arguments> provideWrongUsernamePasswordPair() {
         return Stream.of(
-                Arguments.of(ADMIN_USERNAME, "wrong_password"),
-                Arguments.of("wrong_username", ADMIN_PASSWORD)
+                Arguments.of(TRANSPORT_SYSTEM_CONFIG.adminUsername(), "wrong_password"),
+                Arguments.of("wrong_username", TRANSPORT_SYSTEM_CONFIG.adminPassword())
         );
     }
 }

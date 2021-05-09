@@ -19,16 +19,14 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 @Tag("api_engines")
 @ApiRegression
 public class EngineTest extends ApiTest {
-    private User asAdmin = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+    private User asAdmin = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     private EngineService engineService = new EngineService(asAdmin);
 
     @ApiSmoke

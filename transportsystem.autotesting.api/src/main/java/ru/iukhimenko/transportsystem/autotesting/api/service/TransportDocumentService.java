@@ -6,22 +6,23 @@ import kong.unirest.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
-
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_DOCUMENTS_ENDPOINT;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportDocument;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_DOCUMENTS_ADD_ENDPOINT;
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_DOCUMENTS_ENDPOINT;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class TransportDocumentService extends ApiService {
     private User actor;
     private Logger logger = LoggerFactory.getLogger(TransportDocumentService.class);
 
     public TransportDocumentService() {
-        actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+        actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
     public TransportDocumentService(User actor) {

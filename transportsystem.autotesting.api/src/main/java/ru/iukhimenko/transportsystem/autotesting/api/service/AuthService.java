@@ -5,13 +5,15 @@ import kong.unirest.JsonNode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class AuthService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
@@ -38,7 +40,7 @@ public class AuthService extends ApiService {
     public List<User> getUsers() {
         List<User> users = null;
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", getAccessToken(new User(ADMIN_USERNAME, ADMIN_PASSWORD)));
+        headers.put("Authorization", getAccessToken(new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword())));
         HttpResponse<JsonNode> response = Http.sendGetRequest(USERS_ENDPOINT, headers);
         if (response.isSuccess()) {
             users = ObjectConverter.convertToObjects(response.getBody().getArray(), User.class);

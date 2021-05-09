@@ -8,20 +8,20 @@ import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Vehicle;
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_PASSWORD;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.ADMIN_USERNAME;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class VehicleService extends ApiService {
     private Logger logger = LoggerFactory.getLogger(VehicleService.class);
     private User actor;
 
     public VehicleService() {
-        actor = new User(ADMIN_USERNAME, ADMIN_PASSWORD);
+        actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
     public VehicleService(User actor) {

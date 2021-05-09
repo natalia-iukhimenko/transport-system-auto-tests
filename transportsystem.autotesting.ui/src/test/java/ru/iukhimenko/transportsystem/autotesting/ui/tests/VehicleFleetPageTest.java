@@ -19,8 +19,8 @@ import ru.iukhimenko.transportsystem.autotesting.ui.tags.UiRegression;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
-import static ru.iukhimenko.transportsystem.autotesting.core.Configs.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 @Tag("ui_vehicle_fleet")
 @UiRegression
@@ -33,7 +33,7 @@ public class VehicleFleetPageTest extends UiTest {
     @BeforeAll
     public void createTestDataAndLogIn() {
         createTransportModels();
-        open(BASE_URI, LogInPage.class).logInWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+        open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class).logInWith(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
     @BeforeEach
@@ -72,7 +72,7 @@ public class VehicleFleetPageTest extends UiTest {
 
     private void createTransportModels() {
         List<TransportModel> transportModels = TestDataManager.getTransportModelsFromJson();
-        TransportModelService service = new TransportModelService(new User(ADMIN_USERNAME,ADMIN_PASSWORD));
+        TransportModelService service = new TransportModelService(new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword()));
         transportModels.forEach((transportModel) -> service.addTransportModel(transportModel));
     }
 
