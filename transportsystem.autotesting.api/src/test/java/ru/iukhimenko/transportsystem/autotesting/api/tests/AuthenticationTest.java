@@ -41,7 +41,7 @@ public class AuthenticationTest extends ApiTest {
         assertThat(authenticatedUser)
                 .as("User is successfully authenticated with correct credentials")
                 .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
@@ -55,7 +55,7 @@ public class AuthenticationTest extends ApiTest {
         assertThat(authenticatedUser)
                 .as("Username is not case-sensitive")
                 .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
@@ -87,12 +87,12 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingLeadingSpaces() {
-        StringBuilder usernameWithLeadingSpaces = new StringBuilder("   ").append(testUser.getUsername());
-        User authenticatedUser = authService.authenticateUser(new User(usernameWithLeadingSpaces.toString(), testUser.getPassword()));
+        String usernameWithLeadingSpaces = "   " + testUser.getUsername();
+        User authenticatedUser = authService.authenticateUser(new User(usernameWithLeadingSpaces, testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Leading spaces in username are ignored on authentication")
                 .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
@@ -101,12 +101,11 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingTrailingSpaces() {
-        StringBuilder usernameWithTrailingSpaces = new StringBuilder(testUser.getUsername()).append("   ");
-        User authenticatedUser = authService.authenticateUser(new User(usernameWithTrailingSpaces.toString(), testUser.getPassword()));
+        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername() + "   ", testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Trailing spaces in username are ignored on authentication")
                 .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
