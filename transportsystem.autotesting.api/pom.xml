@@ -28,6 +28,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <unirest.java.version>3.14.5</unirest.java.version>
+        <unirest.jackson.version>4.2.9</unirest.jackson.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>ru.iukhimenko</groupId>
@@ -38,17 +43,13 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>${unirest.version}</version>
+            <version>${unirest.java.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-objectmapper-jackson</artifactId>
-            <version>${unirest.version}</version>
+            <version>${unirest.jackson.version}</version>
         </dependency>
    </dependencies>
-
-    <properties>
-        <unirest.version>3.7.02</unirest.version>
-    </properties>
 </project>
