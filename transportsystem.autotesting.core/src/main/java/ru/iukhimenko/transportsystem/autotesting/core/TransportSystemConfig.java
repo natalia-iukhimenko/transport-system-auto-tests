@@ -13,6 +13,9 @@ public interface TransportSystemConfig extends Config {
     @DefaultValue("http://localhost")
     String baseUrl();
 
+    @DefaultValue("http://localhost")
+    String backendBaseUrl();
+
     String adminUsername();
 
     String adminPassword();
