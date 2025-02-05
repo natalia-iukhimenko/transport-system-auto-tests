@@ -11,15 +11,14 @@ import ru.iukhimenko.transportsystem.autotesting.core.model.TransportModel;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_MODELS_ADD_ENDPOINT;
 import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class TransportModelService extends ApiService {
-    private User actor;
-    private Logger logger = LoggerFactory.getLogger(TransportModelService.class);
+    private final User actor;
+    private final Logger logger = LoggerFactory.getLogger(TransportModelService.class);
 
     public TransportModelService(User actor) {
         this.actor = actor;
@@ -37,7 +36,7 @@ public class TransportModelService extends ApiService {
         if (response.isSuccess()) {
             try {
                 createdModelId = response.getBody().getObject().getInt("id");
-                logger.info("A transport model has been added, id = " + createdModelId);
+                logger.info("A transport model has been added, id = {}", createdModelId);
             }
             catch (JSONException ex) {
                 logger.warn(ex.getMessage());
@@ -57,18 +56,5 @@ public class TransportModelService extends ApiService {
                 logger.warn("Failed to map transport model");
         }
         return model;
-    }
-
-    public List<TransportModel> getTransportModels() {
-        List<TransportModel> models = null;
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", new AuthService().getAccessToken(actor));
-        HttpResponse<JsonNode> response = Http.sendGetRequest(AppEndpoints.TRANSPORT_MODELS_ENDPOINT, headers);
-        if (response.isSuccess()) {
-            models = ObjectConverter.convertToObjects(response.getBody().getArray(), TransportModel.class);
-            if (models == null)
-                logger.warn("Failed to map transport models");
-        }
-        return models;
     }
 }

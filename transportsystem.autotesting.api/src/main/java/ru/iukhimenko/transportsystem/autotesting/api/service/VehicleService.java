@@ -17,15 +17,11 @@ import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
 import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class VehicleService extends ApiService {
-    private Logger logger = LoggerFactory.getLogger(VehicleService.class);
-    private User actor;
+    private final Logger logger = LoggerFactory.getLogger(VehicleService.class);
+    private final User actor;
 
     public VehicleService() {
         actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
-    }
-
-    public VehicleService(User actor) {
-        this.actor = actor;
     }
 
     public Integer addVehicle(Vehicle vehicle) {
@@ -36,7 +32,7 @@ public class VehicleService extends ApiService {
         if (response.isSuccess()) {
             try {
                 createdVehicleId = response.getBody().getObject().getInt("id");
-                logger.info("A vehicle has been added, id = " + createdVehicleId);
+                logger.info("A vehicle has been added, id = {}", createdVehicleId);
             }
             catch (JSONException ex) {
                 logger.warn(ex.getMessage());
@@ -47,7 +43,7 @@ public class VehicleService extends ApiService {
 
     public Vehicle getVehicle(Integer id) {
         Vehicle vehicle = null;
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(TRANSPORTS_TRANSPORT_ENDPOINT(id), headers);
         if (response.isSuccess()) {
@@ -60,13 +56,11 @@ public class VehicleService extends ApiService {
 
     public List<Vehicle> getVehicles() {
         List<Vehicle> vehicles = null;
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(TRANSPORTS_ENDPOINT, headers);
         if (response.isSuccess()) {
             vehicles = ObjectConverter.convertToObjects(response.getBody().getArray(), Vehicle.class);
-            if (vehicles == null)
-                logger.warn("Failed to map vehicles");
         }
         return vehicles;
     }

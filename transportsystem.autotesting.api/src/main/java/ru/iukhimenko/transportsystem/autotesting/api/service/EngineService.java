@@ -9,6 +9,7 @@ import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,8 @@ import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConf
 
 
 public class EngineService extends ApiService {
-    private Logger logger = LoggerFactory.getLogger(AuthService.class);
-    private User actor;
+    private final Logger logger = LoggerFactory.getLogger(EngineService.class);
+    private final User actor;
 
     public EngineService(User actor) {
         this.actor = actor;
@@ -37,7 +38,7 @@ public class EngineService extends ApiService {
         if (response.isSuccess()) {
             try {
                 engineId = response.getBody().getObject().getInt("id");
-                logger.info("Engine has been created, id = " + engineId);
+                logger.info("Engine has been created, id = {}", engineId);
             }
             catch (JSONException ex) {
                 logger.warn(ex.getMessage());
@@ -52,7 +53,7 @@ public class EngineService extends ApiService {
         if (newEngine.getId() != null) {
             HttpResponse<JsonNode> response = Http.sendPutRequest(ENGINES_EDIT_ENDPOINT, headers, newEngine);
             if (response.isSuccess()) {
-                logger.info("Engine has been updated, id = " + newEngine.getId());
+                logger.info("Engine has been updated, id = {}", newEngine.getId());
             }
         }
         else
@@ -61,7 +62,7 @@ public class EngineService extends ApiService {
 
     public Engine getEngine(Integer id) {
         Engine engine = null;
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(ENGINES_ENGINE_ENDPOINT(id), headers);
         if (response.isSuccess()) {
@@ -73,20 +74,18 @@ public class EngineService extends ApiService {
     }
 
     public List<Engine> getAllEngines() {
-        List<Engine> engines = null;
-        Map<String, String> headers = new HashMap();
+        List<Engine> engines = new ArrayList<>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(ENGINES_ALL_ENDPOINT, headers);
         if (response.isSuccess()) {
             engines = ObjectConverter.convertToObjects(response.getBody().getArray(), Engine.class);
-            if (engines == null)
-                logger.warn("Failed to map engines");
         }
         return engines;
     }
 
     public void deleteEngine(Integer id) {
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         Http.sendDeleteRequest(ENGINES_DELETE_ENDPOINT(id), headers);
     }
