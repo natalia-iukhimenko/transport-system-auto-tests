@@ -5,6 +5,8 @@ import ru.iukhimenko.transportsystem.autotesting.api.service.TransportDocumentSe
 import ru.iukhimenko.transportsystem.autotesting.core.ObjectPool;
 import ru.iukhimenko.transportsystem.autotesting.core.model.TransportDocument;
 import ru.iukhimenko.transportsystem.autotesting.core.util.TestDataManager;
+
+import java.time.LocalDate;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class TransportDocumentsPool extends ObjectPool<TransportDocument> {
@@ -15,24 +17,23 @@ public class TransportDocumentsPool extends ObjectPool<TransportDocument> {
     @Override
     protected ConcurrentLinkedQueue<TransportDocument> getExistingObjects() {
         TransportDocumentService service = new TransportDocumentService();
-        ConcurrentLinkedQueue<TransportDocument> documents = new ConcurrentLinkedQueue<TransportDocument>(service.getTransportDocuments());
-        return documents;
+        return new ConcurrentLinkedQueue<>(service.getTransportDocuments());
     }
 
     @Override
     protected TransportDocument create() {
-        Integer vehicleId = new VehiclesPool(1).get().getId();
+        Integer vehicleId = new VehiclesPool().get().getId();
+        LocalDate issuedDate = LocalDate.now();
         TransportDocument documentToCreate = TransportDocument.builder()
                 .documentType("Auto-generated document")
                 .series(TestDataManager.getUniqueNumericCombination("###"))
                 .number(TestDataManager.getUniqueNumericCombination("#########"))
-                .issuedDate("2020-02-25")
+                .issuedDate(issuedDate.toString())
                 .issuedBy(new Faker().company().name())
-                .expireDate("2025-02-25")
+                .expireDate(issuedDate.plusYears(5).toString())
                 .transportId(vehicleId)
                 .build();
-        TransportDocumentService service = new TransportDocumentService();
-        service.addTransportDocument(documentToCreate);
+        new TransportDocumentService().addTransportDocument(documentToCreate);
         return documentToCreate;
     }
 }
