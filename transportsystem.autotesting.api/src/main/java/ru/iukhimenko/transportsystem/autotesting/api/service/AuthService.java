@@ -31,7 +31,7 @@ public class AuthService extends ApiService {
             if (response.isSuccess()) {
                 authenticatedUser = ObjectConverter.convertToObject(response.getBody().getObject(), User.class);
             } else {
-                logger.warn("POST {} ended up with status  = {} - {}", AUTH_ENDPOINT, response.getStatus(), response.getStatusText());
+                logger.warn("POST {} ended up with status = {} - {}", AUTH_ENDPOINT, response.getStatus(), response.getStatusText());
             }
         } else
             logger.warn("Authentication of null user cannot be performed");
@@ -48,7 +48,7 @@ public class AuthService extends ApiService {
                 accessToken = type + " " + token;
             }
         } else {
-            logger.warn("POST {} ended up with status  = {} - {}", AUTH_ENDPOINT, response.getStatus(), response.getStatusText());
+            logger.warn("POST {} ended up with status = {} - {}", AUTH_ENDPOINT, response.getStatus(), response.getStatusText());
         }
         return accessToken;
     }
@@ -61,7 +61,7 @@ public class AuthService extends ApiService {
         if (response.isSuccess()) {
             users = ObjectConverter.convertToObjects(response.getBody().getArray(), User.class);
         } else {
-            logger.warn("GET {} ended up with status  = {} - {}", USERS_ENDPOINT, response.getStatus(), response.getStatusText());
+            logger.warn("GET {} ended up with status = {} - {}", USERS_ENDPOINT, response.getStatus(), response.getStatusText());
         }
         return users;
     }
