@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_DOCUMENTS_ADD_ENDPOINT;
-import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.TRANSPORT_DOCUMENTS_ENDPOINT;
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
 import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 public class TransportDocumentService extends ApiService {
@@ -27,7 +26,7 @@ public class TransportDocumentService extends ApiService {
     }
 
     public Integer addTransportDocument(TransportDocument transportDocument) {
-        Integer createdDocumentId = null;
+        Integer createdDocumentId = -1;
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendPostRequest(TRANSPORT_DOCUMENTS_ADD_ENDPOINT, headers, transportDocument);
@@ -39,6 +38,8 @@ public class TransportDocumentService extends ApiService {
             catch (JSONException ex) {
                 logger.warn(ex.getMessage());
             }
+        } else {
+            logger.warn("POST {} ended up with status = {} - {}", TRANSPORT_DOCUMENTS_ADD_ENDPOINT, response.getStatus(), response.getStatusText());
         }
         return createdDocumentId;
     }
@@ -50,8 +51,8 @@ public class TransportDocumentService extends ApiService {
         HttpResponse<JsonNode> response = Http.sendGetRequest(TRANSPORT_DOCUMENTS_ENDPOINT, headers);
         if (response.isSuccess()) {
             documents = ObjectConverter.convertToObjects(response.getBody().getArray(), TransportDocument.class);
-            if (documents.isEmpty())
-                logger.warn("Failed to map transport documents");
+        }  else {
+            logger.warn("GET {} ended up with status = {} - {}", TRANSPORT_DOCUMENTS_ENDPOINT, response.getStatus(), response.getStatusText());
         }
         return documents;
     }
