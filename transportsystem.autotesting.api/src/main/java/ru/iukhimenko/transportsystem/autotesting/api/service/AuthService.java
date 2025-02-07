@@ -24,23 +24,28 @@ public class AuthService extends ApiService {
         return response.isSuccess();
     }
 
+    private HttpResponse<JsonNode> sendPostSignIn(User user) {
+        return Http.sendPostRequest(AUTH_ENDPOINT, user);
+    }
+
+    public int getAuthenticationRequestStatusCode(User user) {
+        return sendPostSignIn(user).getStatus();
+    }
+
     public User authenticateUser(User user) {
         User authenticatedUser = new User();
-        if (user != null) {
-            HttpResponse<JsonNode> response = Http.sendPostRequest(AUTH_ENDPOINT, user);
-            if (response.isSuccess()) {
-                authenticatedUser = ObjectConverter.convertToObject(response.getBody().getObject(), User.class);
-            } else {
-                logger.warn("POST {} ended up with status = {} - {}", AUTH_ENDPOINT, response.getStatus(), response.getStatusText());
-            }
-        } else
-            logger.warn("Authentication of null user cannot be performed");
+        HttpResponse<JsonNode> response = sendPostSignIn(user);
+        if (response.isSuccess()) {
+            authenticatedUser = ObjectConverter.convertToObject(response.getBody().getObject(), User.class);
+        } else {
+            logger.warn("POST {} ended up with status = {} - {}", AUTH_ENDPOINT, response.getStatus(), response.getStatusText());
+        }
         return authenticatedUser;
     }
 
     public String getAccessToken(User user) {
         String accessToken = "";
-        HttpResponse<JsonNode> response = Http.sendPostRequest(AUTH_ENDPOINT, user);
+        HttpResponse<JsonNode> response = sendPostSignIn(user);
         if (response.isSuccess()) {
             String type = response.getBody().getObject().getString("type");
             String token = response.getBody().getObject().getString("token");

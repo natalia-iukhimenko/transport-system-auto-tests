@@ -33,6 +33,19 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @ApiSmoke
+    @DisplayName("Status code = 200 when user logs in with correct credentials")
+    @Epic("Authentication")
+    @Severity(SeverityLevel.BLOCKER)
+    public void statusCodeIsOkTest() {
+        int actualStatusCode = authService.getAuthenticationRequestStatusCode(testUser);
+        int expectedStatusCode = 200;
+        assertThat(actualStatusCode)
+                .as("Status code = 200 when user logs in with correct credentials")
+                .isEqualTo(expectedStatusCode);
+    }
+
+    @Test
+    @ApiSmoke
     @DisplayName("User can log in with correct credentials")
     @Epic("Authentication")
     @Severity(SeverityLevel.BLOCKER)
@@ -40,7 +53,6 @@ public class AuthenticationTest extends ApiTest {
         User authenticatedUser = authService.authenticateUser(testUser);
         assertThat(authenticatedUser)
                 .as("User is successfully authenticated with correct credentials")
-                .isNotNull()
                 .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
@@ -54,32 +66,33 @@ public class AuthenticationTest extends ApiTest {
         User authenticatedUser = authService.authenticateUser(new User(usernameInAnotherCase, testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Username is not case-sensitive")
-                .isNotNull()
                 .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
     @Test
-    @DisplayName("User can not log in with wrong password")
+    @DisplayName("Status code = 401 (Unauthorized) when user logs in with wrong password")
     @Epic("Authentication")
     @Severity(SeverityLevel.CRITICAL)
     public void canNotLogInWithWrongPasswordTest() {
         String wrongPassword = TestDataManager.getValidPassword();
-        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername(), wrongPassword));
-        assertThat(authenticatedUser)
-                .as("User is not authenticated with wrong password")
-                .isNull();
+        int actualStatusCode = authService.getAuthenticationRequestStatusCode(new User(testUser.getUsername(), wrongPassword));
+        int expectedStatusCode = 401;
+        assertThat(actualStatusCode)
+                .as("Status code = 401 (Unauthorized) when user logs in with correct credentials")
+                .isEqualTo(expectedStatusCode);
     }
 
-    @ParameterizedTest(name = "User can not log in without password")
+    @ParameterizedTest(name = "Status code = 400 (Bad Request) when user logs in without password")
     @Epic("Authentication")
     @Severity(SeverityLevel.NORMAL)
     @EmptySource
     public void canNotLogInWithoutPasswordTest(String password) {
-        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername(), password));
-        assertThat(authenticatedUser)
-                .as("User is not authenticated without password")
-                .isNull();
+        int actualStatusCode = authService.getAuthenticationRequestStatusCode(new User(testUser.getUsername(), password));
+        int expectedStatusCode = 400;
+        assertThat(actualStatusCode)
+                .as("Status code = 400 (Bad Request) when user logs in without password")
+                .isEqualTo(expectedStatusCode);
     }
 
     @Test
@@ -91,7 +104,6 @@ public class AuthenticationTest extends ApiTest {
         User authenticatedUser = authService.authenticateUser(new User(usernameWithLeadingSpaces, testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Leading spaces in username are ignored on authentication")
-                .isNotNull()
                 .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
@@ -104,7 +116,6 @@ public class AuthenticationTest extends ApiTest {
         User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername() + "   ", testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Trailing spaces in username are ignored on authentication")
-                .isNotNull()
                 .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
