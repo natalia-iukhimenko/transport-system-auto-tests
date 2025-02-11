@@ -14,6 +14,7 @@ public class Http {
     public static final int CREATED = 201;
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED = 401;
+    public static final int FORBIDDEN = 403;
 
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers) {
         return Unirest.get(endpoint)

@@ -31,11 +31,23 @@ public class EngineService extends ApiService {
         this.actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
-    public Integer addEngine(Engine engine) {
-        Integer engineId = -1;
+    private HttpResponse<JsonNode> sendPostEnginesAdd(Map<String, String> headers, Engine engine) {
+        return Http.sendPostRequest(ENGINES_ADD_ENDPOINT, headers, engine);
+    }
+
+    private HttpResponse<JsonNode> sendPostEnginesAdd(Engine engine) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
-        HttpResponse<JsonNode> response = Http.sendPostRequest(ENGINES_ADD_ENDPOINT, headers, engine);
+        return sendPostEnginesAdd(headers, engine);
+    }
+
+    public int getAddEngineResponseStatusCode(Engine engine) {
+        return sendPostEnginesAdd(engine).getStatus();
+    }
+
+    public Integer addEngine(Engine engine) {
+        Integer engineId = -1;
+        HttpResponse<JsonNode> response = sendPostEnginesAdd(engine);
         if (response.isSuccess()) {
             try {
                 engineId = response.getBody().getObject().getInt("id");
