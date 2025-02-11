@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.TestInstance.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
+import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.api.service.AuthService;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
@@ -38,10 +39,9 @@ public class AuthenticationTest extends ApiTest {
     @Severity(SeverityLevel.BLOCKER)
     public void statusCodeIsOkTest() {
         int actualStatusCode = authService.getAuthenticationRequestStatusCode(testUser);
-        int expectedStatusCode = 200;
         assertThat(actualStatusCode)
                 .as("Status code = 200 when user logs in with correct credentials")
-                .isEqualTo(expectedStatusCode);
+                .isEqualTo(Http.STATUS_OK);
     }
 
     @Test
@@ -77,10 +77,9 @@ public class AuthenticationTest extends ApiTest {
     public void canNotLogInWithWrongPasswordTest() {
         String wrongPassword = TestDataManager.getValidPassword();
         int actualStatusCode = authService.getAuthenticationRequestStatusCode(new User(testUser.getUsername(), wrongPassword));
-        int expectedStatusCode = 401;
         assertThat(actualStatusCode)
                 .as("Status code = 401 (Unauthorized) when user logs in with correct credentials")
-                .isEqualTo(expectedStatusCode);
+                .isEqualTo(Http.UNAUTHORIZED);
     }
 
     @ParameterizedTest(name = "Status code = 400 (Bad Request) when user logs in without password")
@@ -89,10 +88,9 @@ public class AuthenticationTest extends ApiTest {
     @EmptySource
     public void canNotLogInWithoutPasswordTest(String password) {
         int actualStatusCode = authService.getAuthenticationRequestStatusCode(new User(testUser.getUsername(), password));
-        int expectedStatusCode = 400;
         assertThat(actualStatusCode)
                 .as("Status code = 400 (Bad Request) when user logs in without password")
-                .isEqualTo(expectedStatusCode);
+                .isEqualTo(Http.BAD_REQUEST);
     }
 
     @Test
