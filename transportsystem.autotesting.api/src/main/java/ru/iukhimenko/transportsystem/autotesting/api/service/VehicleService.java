@@ -25,11 +25,19 @@ public class VehicleService extends ApiService {
         actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
-    public Integer addVehicle(Vehicle vehicle) {
-        Integer createdVehicleId = -1;
+    private HttpResponse<JsonNode> postTransportAdd(Vehicle vehicle) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
-        HttpResponse<JsonNode> response = Http.sendPostRequest(TRANSPORTS_ADD_ENDPOINT, headers, vehicle);
+        return Http.sendPostRequest(TRANSPORTS_ADD_ENDPOINT, headers, vehicle);
+    }
+
+    public int getAddVehicleResponseStatusCode(Vehicle vehicle) {
+        return postTransportAdd(vehicle).getStatus();
+    }
+
+    public Integer addVehicle(Vehicle vehicle) {
+        Integer createdVehicleId = -1;
+        HttpResponse<JsonNode> response = postTransportAdd(vehicle);
         if (response.isSuccess()) {
             try {
                 createdVehicleId = response.getBody().getObject().getInt("id");
