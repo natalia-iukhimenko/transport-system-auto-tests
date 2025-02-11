@@ -38,7 +38,7 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.BLOCKER)
     public void statusCodeIsOkTest() {
-        int actualStatusCode = authService.getAuthenticationRequestStatusCode(testUser);
+        int actualStatusCode = authService.getAuthenticationResponseStatusCode(testUser);
         assertThat(actualStatusCode)
                 .as("Status code = 200 when user logs in with correct credentials")
                 .isEqualTo(Http.STATUS_OK);
@@ -76,7 +76,7 @@ public class AuthenticationTest extends ApiTest {
     @Severity(SeverityLevel.CRITICAL)
     public void canNotLogInWithWrongPasswordTest() {
         String wrongPassword = TestDataManager.getValidPassword();
-        int actualStatusCode = authService.getAuthenticationRequestStatusCode(new User(testUser.getUsername(), wrongPassword));
+        int actualStatusCode = authService.getAuthenticationResponseStatusCode(new User(testUser.getUsername(), wrongPassword));
         assertThat(actualStatusCode)
                 .as("Status code = 401 (Unauthorized) when user logs in with correct credentials")
                 .isEqualTo(Http.UNAUTHORIZED);
@@ -87,7 +87,7 @@ public class AuthenticationTest extends ApiTest {
     @Severity(SeverityLevel.NORMAL)
     @EmptySource
     public void canNotLogInWithoutPasswordTest(String password) {
-        int actualStatusCode = authService.getAuthenticationRequestStatusCode(new User(testUser.getUsername(), password));
+        int actualStatusCode = authService.getAuthenticationResponseStatusCode(new User(testUser.getUsername(), password));
         assertThat(actualStatusCode)
                 .as("Status code = 400 (Bad Request) when user logs in without password")
                 .isEqualTo(Http.BAD_REQUEST);

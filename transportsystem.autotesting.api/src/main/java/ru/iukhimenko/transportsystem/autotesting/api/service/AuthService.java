@@ -28,7 +28,7 @@ public class AuthService extends ApiService {
         return Http.sendPostRequest(AUTH_ENDPOINT, user);
     }
 
-    public int getAuthenticationRequestStatusCode(User user) {
+    public int getAuthenticationResponseStatusCode(User user) {
         return sendPostSignIn(user).getStatus();
     }
 
