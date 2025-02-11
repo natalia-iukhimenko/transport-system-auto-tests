@@ -11,6 +11,7 @@ import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.
 public class Http {
     private static final Logger logger = LoggerFactory.getLogger(Http.class);
     public static final int STATUS_OK = 200;
+    public static final int CREATED = 201;
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED = 401;
 
