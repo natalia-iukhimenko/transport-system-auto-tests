@@ -115,11 +115,6 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit-platform-surefire-provider.version}</version>
-                    </dependency>
-                    <dependency>
                         <groupId>org.aspectj</groupId>
                         <artifactId>aspectjweaver</artifactId>
                         <version>${aspectj.version}</version>
