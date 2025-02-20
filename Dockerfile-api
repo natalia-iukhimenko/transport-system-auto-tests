@@ -1,10 +1,7 @@
 FROM maven:3.8.3-openjdk-17
 WORKDIR /app
-COPY ./transportsystem.autotesting.core/pom.xml transportsystem.autotesting.core/
-COPY ./transportsystem.autotesting.core/src transportsystem.autotesting.core/src/
-COPY ./transportsystem.autotesting.api/pom.xml transportsystem.autotesting.api/
-COPY ./transportsystem.autotesting.api/src transportsystem.autotesting.api/src
-COPY ./transportsystem.autotesting.ui/pom.xml transportsystem.autotesting.ui/
-COPY ./transportsystem.autotesting.ui/src transportsystem.autotesting.ui/src
+COPY ./transportsystem.autotesting.core/ transportsystem.autotesting.core/
+COPY ./transportsystem.autotesting.api/ transportsystem.autotesting.api/
+COPY ./transportsystem.autotesting.ui/ transportsystem.autotesting.ui/
 COPY ./pom.xml /app
 CMD ["mvn", "clean", "test", "-pl", "transportsystem.autotesting.api", "-am"]
