@@ -21,13 +21,11 @@ docker-compose up
 As a result, two docker containers are started:
 * **api-tests** - for test execution
 * **api-tests-reports** - for showing the report with test execution results
-
----SCREENSHOT 1---
+  
+![containers](https://github.com/user-attachments/assets/5e3e07fa-15a2-4bd3-9067-d7051b0180b7)
 
 Once test execution is finished and **api-tests** container is stopped, test execution report will be available by the following link: http://localhost:5050/allure-docker-service/projects/default/reports/latest/index.html?redirect=false
-
----SCREENSHOT 2---
-
+![Screenshot_2](https://github.com/user-attachments/assets/83380aa0-a4c7-4217-a765-dc089e56da77)
 
 ## Run UI tests
 TBA
