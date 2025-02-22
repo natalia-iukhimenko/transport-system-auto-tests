@@ -1,0 +1,24 @@
+services:
+  api-tests:
+    build:
+      dockerfile: Dockerfile-api
+    container_name: api-tests
+    environment:
+      - ENV=staging
+    volumes:
+      - reports:/app/transportsystem.autotesting.api/target/allure-results
+  api-tests-report:
+    image: "frankescobar/allure-docker-service"
+    depends_on:
+      - api-tests
+    container_name: api-tests-report
+    user: "${UID}:${GID}"
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: 1
+    ports:
+        - "5050:5050"
+    volumes:
+        - reports:/app/allure-results
+volumes:
+  reports:
