@@ -9,21 +9,15 @@ import java.util.Map;
 import static ru.iukhimenko.transportsystem.autotesting.core.LogMessageTemplate.*;
 
 public class Http {
-    private static Logger logger = LoggerFactory.getLogger(Http.class);
-
-    public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers, Map<String, Object> requestParams) {
-        return Unirest
-                .get(endpoint)
-                .headers(headers)
-                .queryString(requestParams)
-                .asJson()
-                .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
-                .ifFailure(response -> logger.error(getHttpErrorMessageText(endpoint, response.getStatus(), response.getBody().toString())));
-    }
+    private static final Logger logger = LoggerFactory.getLogger(Http.class);
+    public static final int STATUS_OK = 200;
+    public static final int CREATED = 201;
+    public static final int BAD_REQUEST = 400;
+    public static final int UNAUTHORIZED = 401;
+    public static final int FORBIDDEN = 403;
 
     public static HttpResponse<JsonNode> sendGetRequest(String endpoint, Map<String, String> headers) {
-        return Unirest
-                .get(endpoint)
+        return Unirest.get(endpoint)
                 .headers(headers)
                 .asJson()
                 .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
@@ -31,8 +25,7 @@ public class Http {
     }
 
     public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Map<String, String> headers, Object body) {
-        return Unirest
-                .post(endpoint)
+        return Unirest.post(endpoint)
                 .headers(headers)
                 .body(body)
                 .asJson()
@@ -41,8 +34,7 @@ public class Http {
     }
 
     public static HttpResponse<JsonNode> sendPostRequest(String endpoint, Object body) {
-        return Unirest
-                .post(endpoint)
+        return Unirest.post(endpoint)
                 .body(body)
                 .asJson()
                 .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))
@@ -50,8 +42,7 @@ public class Http {
     }
 
     public static HttpResponse<JsonNode> sendPutRequest(String endpoint, Map<String, String> headers, Object body) {
-        return Unirest
-                .put(endpoint)
+        return Unirest.put(endpoint)
                 .headers(headers)
                 .body(body)
                 .asJson()
@@ -60,8 +51,7 @@ public class Http {
     }
 
     public static HttpResponse<JsonNode> sendDeleteRequest(String endpoint, Map<String, String> headers) {
-        return Unirest
-                .delete(endpoint)
+        return Unirest.delete(endpoint)
                 .headers(headers)
                 .asJson()
                 .ifSuccess(response -> logger.info(getHttpMessageText(endpoint, response.getStatus())))

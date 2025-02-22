@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ObjectConverter {
-    private static Logger logger = LoggerFactory.getLogger(ObjectConverter.class);
+    private static final Logger logger = LoggerFactory.getLogger(ObjectConverter.class);
 
     public static <T> T convertToObject(JSONObject jsonObject, Class<T> classType) {
         ObjectMapper mapper = new ObjectMapper();

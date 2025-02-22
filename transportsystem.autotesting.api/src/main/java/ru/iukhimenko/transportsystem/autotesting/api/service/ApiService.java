@@ -6,8 +6,12 @@ import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConf
 
 public class ApiService {
     public ApiService() {
-        Unirest.config()
-                .addDefaultHeader("Content-Type", "application/json")
-                .defaultBaseUrl(TRANSPORT_SYSTEM_CONFIG.backendBaseUrl());
+        if (!Unirest.config().isRunning()) {
+            Unirest.config()
+                    .setDefaultHeader("Content-Type", "application/json")
+                    .defaultBaseUrl(TRANSPORT_SYSTEM_CONFIG.backendBaseUrl())
+                    .socketTimeout(300000)
+                    .connectTimeout(180000);
+        }
     }
 }

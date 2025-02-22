@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.TestInstance.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import ru.iukhimenko.transportsystem.autotesting.api.ApiTest;
+import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.api.service.AuthService;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiRegression;
 import ru.iukhimenko.transportsystem.autotesting.api.tags.ApiSmoke;
@@ -33,6 +34,18 @@ public class AuthenticationTest extends ApiTest {
 
     @Test
     @ApiSmoke
+    @DisplayName("Status code = 200 when user logs in with correct credentials")
+    @Epic("Authentication")
+    @Severity(SeverityLevel.BLOCKER)
+    public void statusCodeIsOkTest() {
+        int actualStatusCode = authService.getAuthenticationResponseStatusCode(testUser);
+        assertThat(actualStatusCode)
+                .as("Status code = 200 when user logs in with correct credentials")
+                .isEqualTo(Http.STATUS_OK);
+    }
+
+    @Test
+    @ApiSmoke
     @DisplayName("User can log in with correct credentials")
     @Epic("Authentication")
     @Severity(SeverityLevel.BLOCKER)
@@ -40,8 +53,7 @@ public class AuthenticationTest extends ApiTest {
         User authenticatedUser = authService.authenticateUser(testUser);
         assertThat(authenticatedUser)
                 .as("User is successfully authenticated with correct credentials")
-                .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
@@ -54,32 +66,31 @@ public class AuthenticationTest extends ApiTest {
         User authenticatedUser = authService.authenticateUser(new User(usernameInAnotherCase, testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Username is not case-sensitive")
-                .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
     @Test
-    @DisplayName("User can not log in with wrong password")
+    @DisplayName("Status code = 401 (Unauthorized) when user logs in with wrong password")
     @Epic("Authentication")
     @Severity(SeverityLevel.CRITICAL)
     public void canNotLogInWithWrongPasswordTest() {
         String wrongPassword = TestDataManager.getValidPassword();
-        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername(), wrongPassword));
-        assertThat(authenticatedUser)
-                .as("User is not authenticated with wrong password")
-                .isNull();
+        int actualStatusCode = authService.getAuthenticationResponseStatusCode(new User(testUser.getUsername(), wrongPassword));
+        assertThat(actualStatusCode)
+                .as("Status code = 401 (Unauthorized) when user logs in with correct credentials")
+                .isEqualTo(Http.UNAUTHORIZED);
     }
 
-    @ParameterizedTest(name = "User can not log in without password")
+    @ParameterizedTest(name = "Status code = 400 (Bad Request) when user logs in without password")
     @Epic("Authentication")
     @Severity(SeverityLevel.NORMAL)
     @EmptySource
     public void canNotLogInWithoutPasswordTest(String password) {
-        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername(), password));
-        assertThat(authenticatedUser)
-                .as("User is not authenticated without password")
-                .isNull();
+        int actualStatusCode = authService.getAuthenticationResponseStatusCode(new User(testUser.getUsername(), password));
+        assertThat(actualStatusCode)
+                .as("Status code = 400 (Bad Request) when user logs in without password")
+                .isEqualTo(Http.BAD_REQUEST);
     }
 
     @Test
@@ -87,12 +98,11 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingLeadingSpaces() {
-        StringBuilder usernameWithLeadingSpaces = new StringBuilder("   ").append(testUser.getUsername());
-        User authenticatedUser = authService.authenticateUser(new User(usernameWithLeadingSpaces.toString(), testUser.getPassword()));
+        String usernameWithLeadingSpaces = "   " + testUser.getUsername();
+        User authenticatedUser = authService.authenticateUser(new User(usernameWithLeadingSpaces, testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Leading spaces in username are ignored on authentication")
-                .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 
@@ -101,12 +111,10 @@ public class AuthenticationTest extends ApiTest {
     @Epic("Authentication")
     @Severity(SeverityLevel.MINOR)
     public void canLogInWithUsernameHavingTrailingSpaces() {
-        StringBuilder usernameWithTrailingSpaces = new StringBuilder(testUser.getUsername()).append("   ");
-        User authenticatedUser = authService.authenticateUser(new User(usernameWithTrailingSpaces.toString(), testUser.getPassword()));
+        User authenticatedUser = authService.authenticateUser(new User(testUser.getUsername() + "   ", testUser.getPassword()));
         assertThat(authenticatedUser)
                 .as("Trailing spaces in username are ignored on authentication")
-                .isNotNull()
-                .extracting(user -> user.getUsername())
+                .extracting(User::getUsername)
                 .isEqualTo(testUser.getUsername());
     }
 

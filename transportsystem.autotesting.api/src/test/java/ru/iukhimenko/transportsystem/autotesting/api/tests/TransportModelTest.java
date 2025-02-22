@@ -20,7 +20,7 @@ import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConf
 @Tag("api_transport_model")
 @ApiRegression
 public class TransportModelTest extends ApiTest {
-    private TransportModelService modelService = new TransportModelService(new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword()));
+    private final TransportModelService modelService = new TransportModelService(new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword()));
 
     @Test
     @ApiSmoke
@@ -38,11 +38,11 @@ public class TransportModelTest extends ApiTest {
                 .length(4620)
                 .build();
         Integer createdModelId = modelService.addTransportModel(modelToAdd);
-        assertThat(createdModelId).as("Created transport model has its own id").isNotNull();
-
         TransportModel createdModel = modelService.getTransportModel(createdModelId);
         assertThat(createdModel)
                 .as("Created transport model stores all specified values")
-                .isEqualToIgnoringGivenFields(modelToAdd, "id");
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(modelToAdd);
     }
 }

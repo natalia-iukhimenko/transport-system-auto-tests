@@ -9,17 +9,19 @@ import ru.iukhimenko.transportsystem.autotesting.api.http.Http;
 import ru.iukhimenko.transportsystem.autotesting.core.model.Engine;
 import ru.iukhimenko.transportsystem.autotesting.core.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.*;
+import static ru.iukhimenko.transportsystem.autotesting.api.AppEndpoints.ENGINES_ENGINE_ENDPOINT;
 import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConfig.TRANSPORT_SYSTEM_CONFIG;
 
 
 public class EngineService extends ApiService {
-    private Logger logger = LoggerFactory.getLogger(AuthService.class);
-    private User actor;
+    private final Logger logger = LoggerFactory.getLogger(EngineService.class);
+    private final User actor;
 
     public EngineService(User actor) {
         this.actor = actor;
@@ -29,19 +31,33 @@ public class EngineService extends ApiService {
         this.actor = new User(TRANSPORT_SYSTEM_CONFIG.adminUsername(), TRANSPORT_SYSTEM_CONFIG.adminPassword());
     }
 
-    public Integer addEngine(Engine engine) {
-        Integer engineId = null;
+    private HttpResponse<JsonNode> sendPostEnginesAdd(Map<String, String> headers, Engine engine) {
+        return Http.sendPostRequest(ENGINES_ADD_ENDPOINT, headers, engine);
+    }
+
+    private HttpResponse<JsonNode> sendPostEnginesAdd(Engine engine) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
-        HttpResponse<JsonNode> response = Http.sendPostRequest(ENGINES_ADD_ENDPOINT, headers, engine);
+        return sendPostEnginesAdd(headers, engine);
+    }
+
+    public int getAddEngineResponseStatusCode(Engine engine) {
+        return sendPostEnginesAdd(engine).getStatus();
+    }
+
+    public Integer addEngine(Engine engine) {
+        Integer engineId = -1;
+        HttpResponse<JsonNode> response = sendPostEnginesAdd(engine);
         if (response.isSuccess()) {
             try {
                 engineId = response.getBody().getObject().getInt("id");
-                logger.info("Engine has been created, id = " + engineId);
+                logger.info("Engine has been created, id = {}", engineId);
             }
             catch (JSONException ex) {
                 logger.warn(ex.getMessage());
             }
+        } else {
+            logger.warn("POST {} ended up with status = {} - {}", ENGINES_ADD_ENDPOINT, response.getStatus(), response.getStatusText());
         }
         return engineId;
     }
@@ -52,7 +68,9 @@ public class EngineService extends ApiService {
         if (newEngine.getId() != null) {
             HttpResponse<JsonNode> response = Http.sendPutRequest(ENGINES_EDIT_ENDPOINT, headers, newEngine);
             if (response.isSuccess()) {
-                logger.info("Engine has been updated, id = " + newEngine.getId());
+                logger.info("Engine has been updated, id = {}", newEngine.getId());
+            } else {
+                logger.warn("PUT {} ended up with status = {} - {}", ENGINES_EDIT_ENDPOINT, response.getStatus(), response.getStatusText());
             }
         }
         else
@@ -60,33 +78,33 @@ public class EngineService extends ApiService {
     }
 
     public Engine getEngine(Integer id) {
-        Engine engine = null;
-        Map<String, String> headers = new HashMap();
+        Engine engine = new Engine();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(ENGINES_ENGINE_ENDPOINT(id), headers);
         if (response.isSuccess()) {
             engine = ObjectConverter.convertToObject(response.getBody().getObject(), Engine.class);
-            if (engine == null)
-                logger.warn("Failed to map engine");
+        } else {
+            logger.warn("GET {} ended up with status = {} - {}", ENGINES_ENGINE_ENDPOINT(id), response.getStatus(), response.getStatusText());
         }
         return engine;
     }
 
     public List<Engine> getAllEngines() {
-        List<Engine> engines = null;
-        Map<String, String> headers = new HashMap();
+        List<Engine> engines = new ArrayList<>();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         HttpResponse<JsonNode> response = Http.sendGetRequest(ENGINES_ALL_ENDPOINT, headers);
         if (response.isSuccess()) {
             engines = ObjectConverter.convertToObjects(response.getBody().getArray(), Engine.class);
-            if (engines == null)
-                logger.warn("Failed to map engines");
+        } else {
+            logger.warn("GET {} ended up with status = {} - {}", ENGINES_ALL_ENDPOINT, response.getStatus(), response.getStatusText());
         }
         return engines;
     }
 
     public void deleteEngine(Integer id) {
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", new AuthService().getAccessToken(actor));
         Http.sendDeleteRequest(ENGINES_DELETE_ENDPOINT(id), headers);
     }
