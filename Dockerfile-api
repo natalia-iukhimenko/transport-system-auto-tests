@@ -4,4 +4,4 @@ COPY ./transportsystem.autotesting.core/ transportsystem.autotesting.core/
 COPY ./transportsystem.autotesting.api/ transportsystem.autotesting.api/
 COPY ./transportsystem.autotesting.ui/ transportsystem.autotesting.ui/
 COPY ./pom.xml /app
-CMD ["mvn", "clean", "test", "-pl", "transportsystem.autotesting.api", "-am"]
+CMD ["mvn", "test", "-pl", "transportsystem.autotesting.api", "-am"]
