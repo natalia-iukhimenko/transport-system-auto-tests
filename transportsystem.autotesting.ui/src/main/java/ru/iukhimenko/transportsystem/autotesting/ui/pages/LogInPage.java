@@ -7,53 +7,60 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class LogInPage {
-    private Logger logger = LoggerFactory.getLogger(LogInPage.class);
-    private SelenideElement loginField = $(By.id("input-1"));
-    private SelenideElement passwordField = $(By.id("input-2"));
-    private SelenideElement logInButton = $(By.id("signin"));
+    private final Logger logger = LoggerFactory.getLogger(LogInPage.class);
+    private final SelenideElement loginField = $(By.xpath("//*[@test-id = 'username']"));
+    private final SelenideElement passwordField = $(By.xpath("//*[@test-id = 'password']"));
+    private final SelenideElement signInButton = $(By.xpath("//*[@test-id = 'sign_in_button']"));
+    private final SelenideElement signUpButton = $(By.xpath("//*[@test-id = 'sign_up_button']"));
+    private final SelenideElement errorMessageAlert = $(By.xpath("//*[@test-id = 'error-message']"));
 
     public LogInPage setLogin(String login) {
+        logger.info("Typing login '{}' on authorization page", login);
         loginField.setValue(login);
-        logger.info("Typed login '" + login + "' on authorization page");
         return this;
     }
 
     public LogInPage setPassword(String password) {
+        logger.info("Typing password '{}' on authorization page", password);
         passwordField.setValue(password);
-        logger.info("Typed password '" + password + "' on authorization page");
         return this;
     }
 
-    public void clickLogInButton() {
-        logInButton.click();
+    public void clickSignInButton() {
+        logger.info("Clicking 'Sign in' button on authorization page");
+        signInButton.click();
     }
 
-    public RegistrationPage clickRegisterButton() {
-        $(By.id("signup")).click();
-        logger.info("Clicked 'Log in' button on authorization page");
+    public RegistrationPage clickSignUpButton() {
+        logger.info("Clicking 'Sign up' button on authorization page");
+        signUpButton.click();
         return new RegistrationPage();
     }
 
     public HomePage logInWith(String login, String password) {
         setLogin(login);
         setPassword(password);
-        clickLogInButton();
+        clickSignInButton();
         return new HomePage();
     }
 
-    public boolean showsWrongLoginOrPasswordMessage() {
-        return $(By.xpath("//div[@role='alert' and text()='Неверный логин или пароль!']"))
-                .shouldBe(visible)
-                .isDisplayed();
+    public boolean isErrorMessageShown() {
+        return errorMessageAlert.shouldBe(visible).isDisplayed();
     }
 
-    public boolean hasLogInLegend() {
-        SelenideElement legend = $(By.xpath("//legend[text()='Вход в систему']"));
-        legend.waitUntil(visible, 10000);
-        return legend.isDisplayed();
+    public String getErrorMessageText() {
+        return errorMessageAlert.getText();
+    }
+
+    public boolean isOpened() {
+        SelenideElement label = $(By.xpath("//*[@test-id = 'log_in_label']"));
+        label.shouldBe(visible, Duration.ofSeconds(10000));
+        return label.isDisplayed();
     }
 
     public boolean isLoginFieldHighlightedAsInvalid() {
