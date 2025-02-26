@@ -11,6 +11,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ui</artifactId>
+
+    <properties>
+        <selenide.version>7.6.1</selenide.version>
+        <allure.selenide.version>2.29.1</allure.selenide.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>ru.iukhimenko</groupId>
@@ -37,9 +43,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <selenide.version>5.12.2</selenide.version>
-        <allure.selenide.version>2.13.3</allure.selenide.version>
-    </properties>
 </project>
