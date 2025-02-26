@@ -4,8 +4,8 @@ import ru.iukhimenko.transportsystem.autotesting.ui.elements.Menu;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.PageHeader;
 
 public class HomePage {
-    private PageHeader header;
-    private Menu menu;
+    private final PageHeader header;
+    private final Menu menu;
 
     public HomePage() {
         header = new PageHeader();
