@@ -2,6 +2,8 @@ package ru.iukhimenko.transportsystem.autotesting.ui;
 
 import com.codeborne.selenide.SelenideElement;
 
+import java.util.Objects;
+
 import static com.codeborne.selenide.Condition.attribute;
 
 public class SelenideElementHelper {
@@ -10,7 +12,7 @@ public class SelenideElementHelper {
     }
 
     public static void expand(SelenideElement element) {
-        if (!element.attr("aria-expanded").equals("true")) {
+        if (!Objects.equals(element.attr("aria-expanded"), "true")) {
             element.click();
             element.shouldHave(attribute("aria-expanded", "true"));
 
