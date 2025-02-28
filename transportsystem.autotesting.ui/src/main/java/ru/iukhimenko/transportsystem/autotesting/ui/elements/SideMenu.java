@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
 import static com.codeborne.selenide.Selenide.$;
 
-public class Menu {
-    Logger logger = LoggerFactory.getLogger(Menu.class);
-    private SelenideElement vehicleMenuItem = $(By.xpath("//a[@aria-controls='accordion-1']"));
+public class SideMenu {
+    Logger logger = LoggerFactory.getLogger(SideMenu.class);
+    private final SelenideElement vehicleMenuItem = $(By.xpath("//a[@test-id = 'vehicles_menu']"));
 
     public VehicleMenuItem expandVehicleMenuItem() {
+        logger.info("Expanding 'Vehicle' menu item");
         SelenideElementHelper.expand(vehicleMenuItem);
-        logger.info("'Vehicle' menu has been expanded");
         return new VehicleMenuItem();
     }
 }
