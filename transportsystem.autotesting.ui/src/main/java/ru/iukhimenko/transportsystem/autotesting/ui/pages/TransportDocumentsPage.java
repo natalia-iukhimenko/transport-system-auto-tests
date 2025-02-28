@@ -7,8 +7,8 @@ import ru.iukhimenko.transportsystem.autotesting.ui.elements.TransportDocumentsT
 import static com.codeborne.selenide.Selenide.$;
 
 public class TransportDocumentsPage {
-    private PageHeader header;
-    private TransportDocumentsTable transportDocumentsTable;
+    private final PageHeader header;
+    private final TransportDocumentsTable transportDocumentsTable;
 
     public TransportDocumentsPage() {
         header = new PageHeader();
@@ -26,9 +26,5 @@ public class TransportDocumentsPage {
     public AddTransportDocumentForm clickAddButton() {
         $("#addDocument").click();
         return new AddTransportDocumentForm();
-    }
-
-    public void clickEditButton() {
-        $("#editDocument").click();
     }
 }

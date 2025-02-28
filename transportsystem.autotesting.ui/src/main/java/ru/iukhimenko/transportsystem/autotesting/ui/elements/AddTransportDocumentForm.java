@@ -9,16 +9,16 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class AddTransportDocumentForm {
-    private SelenideElement form;
-    private SelenideElement documentTypeField = $("#input-1");
-    private SelenideElement seriesField = $("#input-2");
-    private SelenideElement numberField = $("#input-3");
-    private SelenideElement issuedByField = $("#input-4");
-    private SelenideElement issueDateField = $("#input-5");
-    private SelenideElement validToField = $("#input-7");
-    private SelenideElement notLimitedRadio = $(By.xpath("//input[@name='input-6' and contains(@id, 'option_0')]"));
-    private SelenideElement limitedRadio = $(By.xpath("//input[@name='input-6' and contains(@id, 'option_1')]"));
-    private SelenideElement vehicleDropdown = $("#input-8");
+    private final SelenideElement form;
+    private final SelenideElement documentTypeField = $(By.xpath("//*[@test-id = 'transportdoc.documenttype']"));
+    private final SelenideElement seriesField = $(By.xpath("//*[@test-id = 'transportdoc.series']"));
+    private final SelenideElement numberField = $(By.xpath("//*[@test-id = 'transportdoc.number']"));
+    private final SelenideElement issuedByField = $(By.xpath("//*[@test-id = 'transportdoc.issuedby']"));
+    private final SelenideElement issueDateField = $(By.xpath("//*[@test-id = 'transportdoc.issueddate']"));
+    private final SelenideElement validToField = $(By.xpath("//*[@test-id = 'transportdoc.expiredate']"));
+    private final SelenideElement notLimitedRadio = $(By.xpath("//input[@name='input-6' and contains(@id, 'option_0')]"));
+    private final SelenideElement limitedRadio = $(By.xpath("//input[@name='input-6' and contains(@id, 'option_1')]"));
+    private final SelenideElement vehicleDropdown = $(By.xpath("//*[@test-id = 'transportdoc.transportid']"));
 
     public AddTransportDocumentForm() {
         form = $("#modal-form");
@@ -49,15 +49,7 @@ public class AddTransportDocumentForm {
         return SelenideElementHelper.isMandatory(vehicleDropdown);
     }
 
-    public AddTransportDocumentForm selectSpecifyValidityRadioButton() {
-        limitedRadio.sibling(0).click();
-        validToField.should(exist);
-        return this;
-    }
 
-    public boolean isValidToDateMandatory() {
-        return SelenideElementHelper.isMandatory(validToField);
-    }
 
     public AddTransportDocumentForm setDocumentType(String type) {
         documentTypeField.setValue(type);
