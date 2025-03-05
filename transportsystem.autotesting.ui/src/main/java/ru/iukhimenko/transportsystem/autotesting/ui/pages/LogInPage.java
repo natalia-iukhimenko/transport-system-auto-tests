@@ -46,6 +46,7 @@ public class LogInPage {
         setLogin(login);
         setPassword(password);
         clickSignInButton();
+        signInButton.shouldNot(exist);
         return new HomePage();
     }
 
