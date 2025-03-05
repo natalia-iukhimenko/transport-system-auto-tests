@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.iukhimenko.transportsystem.autotesting.ui.SelenideElementHelper;
+
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SideMenu {
@@ -13,6 +15,7 @@ public class SideMenu {
 
     public VehicleMenuItem expandVehicleMenuItem() {
         logger.info("Expanding 'Vehicle' menu item");
+        vehicleMenuItem.should(exist);
         SelenideElementHelper.expand(vehicleMenuItem);
         return new VehicleMenuItem();
     }
