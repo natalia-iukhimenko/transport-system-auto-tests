@@ -20,7 +20,7 @@ public class SelenideElementHelper {
     }
 
     public static void collapse(SelenideElement element) {
-        if (!element.attr("aria-expanded").equals("false")) {
+        if (!Objects.equals(element.attr("aria-expanded"), "false")) {
             element.click();
             element.shouldHave(attribute("aria-expanded", "false"));
         }
@@ -28,5 +28,13 @@ public class SelenideElementHelper {
 
     public static boolean isMandatory(SelenideElement element) {
         return element.has(attribute("aria-required", "true"));
+    }
+
+    public static boolean isInputFieldEmpty(SelenideElement element) {
+        return Objects.requireNonNull(element.getValue()).isEmpty();
+    }
+
+    public static boolean isValueSelectedInDropdown(SelenideElement element) {
+        return !Objects.requireNonNull(element.getSelectedOptionText()).isEmpty();
     }
 }
