@@ -1,22 +1,22 @@
 package ru.iukhimenko.transportsystem.autotesting.ui.pages;
 
-import ru.iukhimenko.transportsystem.autotesting.ui.elements.Menu;
+import ru.iukhimenko.transportsystem.autotesting.ui.elements.SideMenu;
 import ru.iukhimenko.transportsystem.autotesting.ui.elements.PageHeader;
 
 public class HomePage {
     private final PageHeader header;
-    private final Menu menu;
+    private final SideMenu sideMenu;
 
     public HomePage() {
         header = new PageHeader();
-        menu = new Menu();
+        sideMenu = new SideMenu();
     }
 
     public PageHeader getPageHeader() {
         return header;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public SideMenu getMenu() {
+        return sideMenu;
     }
 }

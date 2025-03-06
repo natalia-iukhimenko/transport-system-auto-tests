@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
+import lombok.Getter;
 
 @JsonDeserialize(builder = TransportDocument.TransportDocumentBuilder.class)
 @Builder
+@Getter
 public class TransportDocument {
     private final Integer id;
     @JsonProperty("documenttype")
