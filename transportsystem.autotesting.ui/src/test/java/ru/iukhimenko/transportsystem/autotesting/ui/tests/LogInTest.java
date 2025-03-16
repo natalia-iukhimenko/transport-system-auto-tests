@@ -2,7 +2,6 @@ package ru.iukhimenko.transportsystem.autotesting.ui.tests;
 
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -41,9 +40,10 @@ public class LogInTest extends UiTest {
     @DisplayName("Error message is shown if a user logs in with wrong credentials")
     public void errorMessageIsShownWhenLogInWithWrongUsernameOrPassword(String username, String password) {
         LogInPage page = open(TRANSPORT_SYSTEM_CONFIG.baseUrl(), LogInPage.class);
-        page.logInWith(username, password);
-
-        String expectedErrorMessageText = "Неверные учетные данные пользователя";
+        page.setLogin(username)
+                .setPassword(password)
+                .clickSignInButton();
+        String expectedErrorMessageText = "Неверный логин или пароль!";
         assertThat(page.isErrorMessageShown())
                 .as("Error message is shown if a user logs in with wrong username or password")
                 .isTrue();

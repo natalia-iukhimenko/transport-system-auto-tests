@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 public class UiTest {
     @BeforeAll
     public static void setUp() {
+        Configuration.remote = "http://localhost:4444/wd/hub";
         Configuration.browserSize = "1920x1080";
         Configuration.screenshots = false;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
