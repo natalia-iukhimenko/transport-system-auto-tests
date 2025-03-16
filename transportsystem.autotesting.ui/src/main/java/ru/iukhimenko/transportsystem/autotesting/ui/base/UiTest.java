@@ -12,10 +12,11 @@ import static ru.iukhimenko.transportsystem.autotesting.core.TransportSystemConf
 public class UiTest {
     @BeforeAll
     public static void setUp() {
-        //  Configuration.remote = "http://localhost:4444/wd/hub"; // for local
-        Configuration.remote = "http://selenoid:4444/wd/hub"; // for remote
+        if (TRANSPORT_SYSTEM_CONFIG.environment().equals("remote")) {
+            Configuration.remote = "http://selenoid:4444/wd/hub";
+        }
+        Configuration.headless = TRANSPORT_SYSTEM_CONFIG.isHeadless().equals("true");
         Configuration.browser = TRANSPORT_SYSTEM_CONFIG.browser();
-        Configuration.browserVersion = TRANSPORT_SYSTEM_CONFIG.browserVersion();
         Configuration.browserSize = "1920x1080";
         Configuration.screenshots = false;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));

@@ -21,4 +21,10 @@ public interface TransportSystemConfig extends Config {
     String adminPassword();
 
     String browser();
+
+    @DefaultValue("local")
+    String environment();
+
+    @DefaultValue("false")
+    String isHeadless();
 }
