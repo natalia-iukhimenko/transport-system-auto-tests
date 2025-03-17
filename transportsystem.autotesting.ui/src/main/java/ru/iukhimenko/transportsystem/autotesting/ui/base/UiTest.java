@@ -18,7 +18,6 @@ public class UiTest {
         Configuration.headless = TRANSPORT_SYSTEM_CONFIG.isHeadless().equals("true");
         Configuration.browser = TRANSPORT_SYSTEM_CONFIG.browser();
         Configuration.browserSize = "1920x1080";
-        Configuration.screenshots = false;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
     }
 
