@@ -14,10 +14,64 @@ The project consists of three modules:
 * **Slf4j** - for logging.
 
 ## Run API tests in docker container
-Execute the following command:
+1. Install [Docker](https://docs.docker.com/install/)
+2. Install [Docker Compose](https://docs.docker.com/compose/install/)
+3. Execute the following command:
 ```
-docker-compose up
+docker-compose up api-tests allure-docker-service allure-ui -d
 ```
+
+As a result, three docker containers are started:
+* **api-tests** - for executing api tests
+* **allure-docker-service** - for generating test execution report
+* **test-execution-report** - for showing text execution report in web browser
+
+---SCREENSHOT 1---
+
+4. Once the test execution is finished and **api-tests** container is stopped, a test execution report can be generated. To generate the report, execute the following request:
+```
+curl -X 'GET' \
+'http://localhost:5050/allure-docker-service/generate-report?project_id=api-tests' \
+-H 'accept: */*'
+```
+
+5. Open the generated report by following this link: http://localhost:5252 and select "api-tests" from the left-side menu
+---screenshot----
+
+## Run UI tests
+### In a docker container
+1. Install [Docker](https://docs.docker.com/install/)
+2. Install [Docker Compose](https://docs.docker.com/compose/install/)
+3.  Set **environment=remote** in transportsystem.autotesting.core/src/main/resources/config.properties
+4. Execute the following command:
+```
+docker-compose up ui-tests selenoid selenoid-ui allure-docker-service allure-ui -d
+```
+As a result, the following docker containers are started:
+---screenshot----
+
+5. Once the test execution is finished and **ui-tests** container is stopped, a test execution report can be generated. To generate the report, execute the following request:
+```
+curl -X 'GET' \
+'http://localhost:5050/allure-docker-service/generate-report?project_id=ui-tests' \
+-H 'accept: */*'
+```
+
+6. Open the generated report by following this link: http://localhost:5252 and select "ui-tests" from the left-side menu
+   ---screenshot----
+
+### Locally
+1. Set **environment=local** in transportsystem.autotesting.core/src/main/resources/config.properties
+2. Set **junit.jupiter.execution.parallel.enabled=false** in transportsystem.autotesting.ui/src/test/resources/junit-platform.properties
+3. Execute the following command to build project modules:
+```
+mvn install -DskipTests
+```
+4. Execute the following command to run tests:
+```
+mvn test -pl transportsystem.autotesting.ui
+```
+=======
 As a result, two docker containers are started:
 * **api-tests** - for test execution
 * **api-tests-reports** - for showing the report with test execution results
@@ -26,6 +80,3 @@ As a result, two docker containers are started:
 
 Once test execution is finished and **api-tests** container is stopped, test execution report will be available by the following link: http://localhost:5050/allure-docker-service/projects/default/reports/latest/index.html?redirect=false
 ![Screenshot_2](https://github.com/user-attachments/assets/83380aa0-a4c7-4217-a765-dc089e56da77)
-
-## Run UI tests
-TBA
