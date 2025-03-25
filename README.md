@@ -30,9 +30,7 @@ As a result, three docker containers are started:
 
 4. Once api-tests are finished and container is stopped, a test execution report can be generated. To generate the report, execute the following request:
 ```
-curl -X 'GET' \
-'http://localhost:5050/allure-docker-service/generate-report?project_id=api-tests' \
--H 'accept: */*'
+curl -X "GET" "http://localhost:5050/allure-docker-service/generate-report?project_id=api-tests" -H "accept: */*"
 ```
 
 5. Open the generated report by following this link: http://localhost:5252 and select "api-tests" from the left-side menu
@@ -60,9 +58,7 @@ As a result, the following docker containers are started:
 
 5. Once the test execution is finished and **ui-tests** container is stopped, a test execution report can be generated. To generate the report, execute the following request:
 ```
-curl -X 'GET' \
-'http://localhost:5050/allure-docker-service/generate-report?project_id=ui-tests' \
--H 'accept: */*'
+curl -X "GET" "http://localhost:5050/allure-docker-service/generate-report?project_id=ui-tests" -H "accept: */*"
 ```
 
 6. Open the generated report by following this link: http://localhost:5252 and select "ui-tests" from the left-side menu
