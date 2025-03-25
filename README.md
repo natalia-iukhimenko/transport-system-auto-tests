@@ -13,7 +13,8 @@ The project consists of three modules:
 * **AssertJ** - for assertions;
 * **Slf4j** - for logging.
 
-## Run API tests in docker container
+## Run API tests
+### In docker container
 1. Install [Docker](https://docs.docker.com/install/)
 2. Install [Docker Compose](https://docs.docker.com/compose/install/)
 3. Execute the following command:
@@ -36,6 +37,14 @@ curl -X 'GET' \
 
 5. Open the generated report by following this link: http://localhost:5252 and select "api-tests" from the left-side menu
 ![api-menu](https://github.com/user-attachments/assets/f228d7a9-f40b-4e17-ad82-ffb5c06b66bf)
+
+### Locally
+1. Set **environment=local** in transportsystem.autotesting.core/src/main/resources/config.properties
+2. Set **junit.jupiter.execution.parallel.enabled=false** in transportsystem.autotesting.api/src/test/resources/junit-platform.properties
+3. Execute the following command to build project modules:
+```
+mvn test -pl transportsystem.autotesting.api -am
+```
 
 ## Run UI tests
 ### In a docker container
