@@ -25,10 +25,9 @@ As a result, three docker containers are started:
 * **api-tests** - for executing api tests
 * **allure-docker-service** - for generating test execution report
 * **test-execution-report** - for showing text execution report in web browser
+![api_containers](https://github.com/user-attachments/assets/43fb1722-8c88-407a-9a1c-e01c9d1239da)
 
----SCREENSHOT 1---
-
-4. Once the test execution is finished and **api-tests** container is stopped, a test execution report can be generated. To generate the report, execute the following request:
+4. Once api-tests are finished and container is stopped, a test execution report can be generated. To generate the report, execute the following request:
 ```
 curl -X 'GET' \
 'http://localhost:5050/allure-docker-service/generate-report?project_id=api-tests' \
@@ -36,7 +35,7 @@ curl -X 'GET' \
 ```
 
 5. Open the generated report by following this link: http://localhost:5252 and select "api-tests" from the left-side menu
----screenshot----
+![api-menu](https://github.com/user-attachments/assets/f228d7a9-f40b-4e17-ad82-ffb5c06b66bf)
 
 ## Run UI tests
 ### In a docker container
@@ -48,7 +47,7 @@ curl -X 'GET' \
 docker-compose up ui-tests selenoid selenoid-ui allure-docker-service allure-ui -d
 ```
 As a result, the following docker containers are started:
----screenshot----
+![containers_ui](https://github.com/user-attachments/assets/4f9855f3-88b8-4e7f-ae93-e173ab2d5ad0)
 
 5. Once the test execution is finished and **ui-tests** container is stopped, a test execution report can be generated. To generate the report, execute the following request:
 ```
@@ -58,7 +57,7 @@ curl -X 'GET' \
 ```
 
 6. Open the generated report by following this link: http://localhost:5252 and select "ui-tests" from the left-side menu
-   ---screenshot----
+![ui_tests_menu](https://github.com/user-attachments/assets/81f67a07-1cf6-4532-be81-1b82ab8ea59d)
 
 ### Locally
 1. Set **environment=local** in transportsystem.autotesting.core/src/main/resources/config.properties
@@ -71,12 +70,3 @@ mvn install -DskipTests
 ```
 mvn test -pl transportsystem.autotesting.ui
 ```
-=======
-As a result, two docker containers are started:
-* **api-tests** - for test execution
-* **api-tests-reports** - for showing the report with test execution results
-  
-![containers](https://github.com/user-attachments/assets/5e3e07fa-15a2-4bd3-9067-d7051b0180b7)
-
-Once test execution is finished and **api-tests** container is stopped, test execution report will be available by the following link: http://localhost:5050/allure-docker-service/projects/default/reports/latest/index.html?redirect=false
-![Screenshot_2](https://github.com/user-attachments/assets/83380aa0-a4c7-4217-a765-dc089e56da77)
