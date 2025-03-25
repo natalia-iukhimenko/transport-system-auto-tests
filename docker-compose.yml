@@ -1,5 +1,3 @@
-volumes:
-  reports:
 networks:
   selenoid_network:
     driver: bridge
@@ -11,20 +9,17 @@ services:
     environment:
       - ENV=staging
     volumes:
-      - reports:/app/transportsystem.autotesting.api/target/allure-results
-  api-tests-report:
-    image: "frankescobar/allure-docker-service"
+      - ./allure/api-tests/results:/app/transportsystem.autotesting.api/target/allure-results
+  ui-tests:
+    container_name: ui-tests
+    build:
+      dockerfile: Dockerfile-ui
+    networks:
+      - selenoid_network
     depends_on:
-      - api-tests
-    container_name: api-tests-report
-    user: "${UID}:${GID}"
-    environment:
-      CHECK_RESULTS_EVERY_SECONDS: 1
-      KEEP_HISTORY: 1
-    ports:
-      - "5050:5050"
+      - selenoid
     volumes:
-      - reports:/app/allure-results
+      - ./allure/ui-tests/results:/app/transportsystem.autotesting.ui/target/allure-results
   selenoid:
     container_name: selenoid
     image: aerokube/selenoid:latest-release
@@ -51,11 +46,29 @@ services:
     ports:
       - "8081:8080"
     command: [ "--selenoid-uri", "http://selenoid:4444" ]
-  ui-tests:
-    container_name: ui-tests
-    build:
-      dockerfile: Dockerfile-ui
+  allure-docker-service:
+    image: "frankescobar/allure-docker-service"
+    container_name: allure-docker-service
+    user: 1000:1000
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: NONE
+      KEEP_HISTORY: 1
+      KEEP_HISTORY_LATEST: 15
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./allure:/app/projects
     networks:
       - selenoid_network
+  allure-ui:
+    image: "frankescobar/allure-docker-service-ui"
+    container_name: test-execution-report
+    environment:
+      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:5050"
+      ALLURE_DOCKER_PUBLIC_API_URL_PREFIX: ""
+    ports:
+      - "5252:5252"
     depends_on:
-      - selenoid
+      - allure-docker-service
+    networks:
+      - selenoid_network
