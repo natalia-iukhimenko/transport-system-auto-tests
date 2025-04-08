@@ -13,6 +13,20 @@ The project consists of three modules:
 * **AssertJ** - for assertions;
 * **Slf4j** - for logging.
 
+## Before running tests
+The System Under Test is deployed on a cloud application platform with a free plan. This causes the server to "fall asleep" when the system is not actively used. It wakes up when it receives an http request, but the first response takes about 3 minutes. So before running automated tests it's recommended to run a script which sends authentication request and waits until response is received. Please start test execution once the script is automatically quitted.
+### Script for Windows
+Download [Uploading wake_server.bat…]() and start it with double click or execute in terminal(make sure that cURL is installed)"
+```
+wake_server.bat
+```
+### Script for Linux/MAC
+Download [Uploading wake_server.sh…]() and execute the following commands:
+```
+chmod +x wake_server.sh
+./wake_server.sh
+```
+
 ## Run API tests
 ### In docker container
 1. Install [Docker](https://docs.docker.com/install/)
