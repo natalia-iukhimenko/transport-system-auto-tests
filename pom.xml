@@ -22,7 +22,7 @@
         <allure-maven.version>2.15.2</allure-maven.version>
         <log4j.version>2.24.3</log4j.version>
         <javafaker.version>1.0.2</javafaker.version>
-        <apache-commons-lang3.version>3.0</apache-commons-lang3.version>
+        <apache-commons-lang3.version>3.18.0</apache-commons-lang3.version>
         <assertj.version>3.27.2</assertj.version>
         <aspectj.version>1.9.22</aspectj.version>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
